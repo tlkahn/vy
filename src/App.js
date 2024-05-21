@@ -1,9 +1,9 @@
 // src/App.js
 import React, { useState, useEffect } from 'react';
-import MainComponent from './main';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import SequenceComponent from './SequenceComponent';
-import CategoryComponent from './CategoryComponent';
+import MainComponent from './components/MainComponent';
+import SequenceComponent from './components/SequenceComponent';
+import CategoryComponent from './components/CategoryComponent';
 
 function App() {
   const [message, setMessage] = useState('');

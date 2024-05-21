@@ -24,6 +24,7 @@ function MainComponent() {
   const [greetingMsg, setGreetingMsg] = useState('');
   const [tags, setTags] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogin = () => {
     // Perform your login logic here, and then update the state:
@@ -89,10 +90,18 @@ function MainComponent() {
     <div className="scene-video-background bg-gray-700 text-white min-h-screen">
       <div className="main container mx-auto px-4 py-8 flex flex-col md:flex-row h-full space-y-4 md:space-y-0 md:space-x-8">
         <aside className="flex flex-col w-full md:w-1/4 p-4 space-y-4">
-          <Link to="/" className="logo-wrapper">
-            <img src={logoUrl} alt="Logo" />
-          </Link>
-          <nav>
+          <div className="flex items-center justify-between">
+            <Link to="/" className="logo-wrapper">
+              <img src={logoUrl} alt="Logo" />
+            </Link>
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden focus:outline-none"
+            >
+              <i className="fa fa-bars" aria-hidden="true"></i>
+            </button>
+          </div>
+          <nav className={`${isMenuOpen ? "block" : "hidden"} md:block`}>
             <ul className="space-y-1">
               {categories.map((category) => (
                 <li key={category.id}>
