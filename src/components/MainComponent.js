@@ -47,21 +47,16 @@ function MainComponent() {
     );
   };
 
-  const scrollBack = (tagId) => {
+  const scroll = (tagId, direction) => {
     const scrollContainer = scrollContainerRefs.current.get(tagId);
     const listItem = listItemRefs.current.get(tagId);
     if (!scrollContainer || !listItem) return;
-    const itemWidth = listItem.offsetWidth;
-    scrollContainer.scrollBy({ left: -itemWidth, behavior: 'smooth' });
-  };
-
-  const scrollForward = (tagId) => {
-    const scrollContainer = scrollContainerRefs.current.get(tagId);
-    const listItem = listItemRefs.current.get(tagId);
-    if (!scrollContainer || !listItem) return;
-    const itemWidth = listItem.offsetWidth;
+    const itemWidth = listItem.offsetWidth * direction;
     scrollContainer.scrollBy({ left: itemWidth, behavior: 'smooth' });
   };
+
+  const scrollBack = (tagId) => scroll(tagId, -1);
+  const scrollForward = (tagId) => scroll(tagId, 1);
 
   useEffect(() => {
     // Fetch categories
@@ -129,9 +124,7 @@ function MainComponent() {
           </div>
           {tags.map((tag, index) => (
             <div className="tag-container mb-2 space-y-2" key={index}>
-              <div
-                className="tag-header flex justify-between items-center"
-              >
+              <div className="tag-header flex justify-between items-center">
                 <div className="tag-title">
                   <h2 className="text-xl font-bold">{tag.title}</h2>
                 </div>
