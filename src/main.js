@@ -129,7 +129,7 @@ function MainComponent() {
                     >
                       <Link
                         to={sequence.url}
-                        className="sequence-btn flex space-x-4 items-center"
+                        className="sequence-btn flex-col space-y-4"
                       >
                         <div>
                           <img
