@@ -5,19 +5,18 @@ import 'font-awesome/css/font-awesome.min.css';
 const getGreetingMessage = () => {
   const currentTime = new Date();
   const currentHour = currentTime.getHours();
-  let greeting = "";
+  let greeting = '';
 
   if (currentHour >= 4 && currentHour < 12) {
-    greeting = "Good morning";
+    greeting = 'Good morning';
   } else if (currentHour >= 12 && currentHour < 18) {
-    greeting = "Good afternoon";
+    greeting = 'Good afternoon';
   } else {
-    greeting = "Good night";
+    greeting = 'Good night';
   }
 
   return greeting;
 };
-
 
 function MainComponent() {
   const [categories, setCategories] = useState([]);
@@ -38,7 +37,9 @@ function MainComponent() {
 
   const updateGreetingMessage = () => {
     const greeting = getGreetingMessage();
-    const personalizedGreeting = isLoggedIn ? `${greeting}, ${userName}` : greeting;
+    const personalizedGreeting = isLoggedIn
+      ? `${greeting}, ${userName}`
+      : greeting;
     setGreetingMsg(personalizedGreeting);
   };
 
@@ -167,7 +168,7 @@ function MainComponent() {
                           <img
                             src={sequence.cover}
                             alt={sequence.title}
-                            className="w-32 h-32 object-cover rounded-md"
+                            className="w-full h-auto object-cover rounded-md"
                           />
                         </div>
                         <div>
