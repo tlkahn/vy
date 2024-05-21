@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import 'font-awesome/css/font-awesome.min.css';
 
@@ -7,6 +7,31 @@ function MainComponent() {
   const [greetingMsg, setGreetingMsg] = useState('');
   const [logo, setLogo] = useState('');
   const [tags, setTags] = useState([]);
+
+  const scrollContainerRefs = useRef(new Map());
+  const listItemRefs = useRef(new Map());
+
+  const setRefs = (tagId, element, isScrollContainer) => {
+    (isScrollContainer ? scrollContainerRefs : listItemRefs).current.set(
+      tagId,
+      element,
+    );
+  };
+  const scrollBack = (tagId) => {
+    const scrollContainer = scrollContainerRefs.current.get(tagId);
+    const listItem = listItemRefs.current.get(tagId);
+    if (!scrollContainer || !listItem) return;
+    const itemWidth = listItem.offsetWidth;
+    scrollContainer.scrollBy({ left: -itemWidth, behavior: 'smooth' });
+  };
+
+  const scrollForward = (tagId) => {
+    const scrollContainer = scrollContainerRefs.current.get(tagId);
+    const listItem = listItemRefs.current.get(tagId);
+    if (!scrollContainer || !listItem) return;
+    const itemWidth = listItem.offsetWidth;
+    scrollContainer.scrollBy({ left: itemWidth, behavior: 'smooth' });
+  };
 
   useEffect(() => {
     // Fetch categories
@@ -35,7 +60,7 @@ function MainComponent() {
             <img src={logoUrl} alt="Logo" />
           </Link>
           <nav>
-            <ul class="space-y-1">
+            <ul className="space-y-1">
               {categories.map((category) => (
                 <li key={category.id}>
                   <Link
@@ -62,21 +87,27 @@ function MainComponent() {
               <i className="fa fa-search" aria-hidden="true" />
             </Link>
           </div>
-          {tags.map((tag) => (
+          {tags.map((tag, index) => (
             <div className="tag-container mb-2 space-y-2">
               <div
                 className="tag-header flex justify-between items-center"
-                key={tag.id}
+                key={index}
               >
                 <div className="tag-title">
                   <h2 className="text-xl font-bold">{tag.title}</h2>
                 </div>
                 <div className="tag-scroller">
                   <div className="horizontal-scroller px-1">
-                    <button className="scroll-btn scroll-back">
+                    <button
+                      className="scroll-btn scroll-back"
+                      onClick={() => scrollBack(index)}
+                    >
                       <i className="fa fa-chevron-left" aria-hidden="true"></i>
                     </button>
-                    <button className="scroll-btn scroll-forward px-1">
+                    <button
+                      className="scroll-btn scroll-forward px-1"
+                      onClick={() => scrollForward(index)}
+                    >
                       <i className="fa fa-chevron-right" aria-hidden="true"></i>
                     </button>
                     <button className="show-all-btn px-1">
@@ -86,9 +117,16 @@ function MainComponent() {
                 </div>
               </div>
               <div className="tag-contents">
-                <ul className="flex overflow-x-scroll space-x-4">
-                  {tag.sequences.map((sequence) => (
-                    <li key={sequence.id} className="mb-4 flex-shrink-0">
+                <ul
+                  ref={(el) => setRefs(index, el, true)}
+                  className="flex overflow-x-scroll space-x-4"
+                >
+                  {tag.sequences.map((sequence, index) => (
+                    <li
+                      key={sequence.id}
+                      className="mb-4 flex-shrink-0"
+                      ref={(el) => setRefs(index, el, false)}
+                    >
                       <Link
                         to={sequence.url}
                         className="sequence-btn flex space-x-4 items-center"
