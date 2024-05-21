@@ -3,19 +3,12 @@ import { Link } from 'react-router-dom';
 import 'font-awesome/css/font-awesome.min.css';
 
 const getGreetingMessage = () => {
-  const currentTime = new Date();
-  const currentHour = currentTime.getHours();
-  let greeting = '';
-
-  if (currentHour >= 4 && currentHour < 12) {
-    greeting = 'Good morning';
-  } else if (currentHour >= 12 && currentHour < 18) {
-    greeting = 'Good afternoon';
-  } else {
-    greeting = 'Good night';
-  }
-
-  return greeting;
+  const currentHour = new Date().getHours();
+  return currentHour < 4 || currentHour >= 18
+    ? 'Good night'
+    : currentHour < 12
+      ? 'Good morning'
+      : 'Good afternoon';
 };
 
 function MainComponent() {
@@ -101,7 +94,7 @@ function MainComponent() {
               <i className="fa fa-bars" aria-hidden="true"></i>
             </button>
           </div>
-          <nav className={`${isMenuOpen ? "block" : "hidden"} md:block`}>
+          <nav className={`${isMenuOpen ? 'block' : 'hidden'} md:block`}>
             <ul className="space-y-1">
               {categories.map((category) => (
                 <li key={category.id}>
@@ -125,15 +118,19 @@ function MainComponent() {
         <main id="main-content" className="w-full md:w-3/4">
           <div className="header mb-8 flex justify-between items-center">
             <h1 className="text-3xl font-bold">{greetingMsg}</h1>
-            <Link to="/app/search">
-              <i className="fa fa-search" aria-hidden="true" />
-            </Link>
+            <div class="header-utils space-x-8">
+              <Link to="/app/search">
+                <i className="fa fa-search" aria-hidden="true" />
+              </Link>
+              <Link to="/app/profile">
+                <i className="fa fa-user" aria-hidden="true" />
+              </Link>
+            </div>
           </div>
           {tags.map((tag, index) => (
-            <div className="tag-container mb-2 space-y-2">
+            <div className="tag-container mb-2 space-y-2" key={index}>
               <div
                 className="tag-header flex justify-between items-center"
-                key={index}
               >
                 <div className="tag-title">
                   <h2 className="text-xl font-bold">{tag.title}</h2>
