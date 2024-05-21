@@ -2,11 +2,45 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import 'font-awesome/css/font-awesome.min.css';
 
+const getGreetingMessage = () => {
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+  let greeting = "";
+
+  if (currentHour >= 4 && currentHour < 12) {
+    greeting = "Good morning";
+  } else if (currentHour >= 12 && currentHour < 18) {
+    greeting = "Good afternoon";
+  } else {
+    greeting = "Good night";
+  }
+
+  return greeting;
+};
+
+
 function MainComponent() {
   const [categories, setCategories] = useState([]);
-  const [greetingMsg, setGreetingMsg] = useState('');
   const [logo, setLogo] = useState('');
+  const [greetingMsg, setGreetingMsg] = useState('');
   const [tags, setTags] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogin = () => {
+    // Perform your login logic here, and then update the state:
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    // Perform your logout logic here, and then update the state:
+    setIsLoggedIn(false);
+  };
+
+  const updateGreetingMessage = () => {
+    const greeting = getGreetingMessage();
+    const personalizedGreeting = isLoggedIn ? `${greeting}, ${userName}` : greeting;
+    setGreetingMsg(personalizedGreeting);
+  };
 
   const scrollContainerRefs = useRef(new Map());
   const listItemRefs = useRef(new Map());
@@ -17,6 +51,7 @@ function MainComponent() {
       element,
     );
   };
+
   const scrollBack = (tagId) => {
     const scrollContainer = scrollContainerRefs.current.get(tagId);
     const listItem = listItemRefs.current.get(tagId);
@@ -39,10 +74,7 @@ function MainComponent() {
       .then((response) => response.json())
       .then((data) => setCategories(data));
 
-    // Fetch greeting message
-    fetch('http://localhost:3000/api/greeting')
-      .then((response) => response.json())
-      .then((data) => setGreetingMsg(data.message));
+    updateGreetingMessage();
 
     // Fetch tags
     fetch('http://localhost:3000/api/tags')
@@ -142,7 +174,6 @@ function MainComponent() {
                           <h3 className="text-lg font-semibold">
                             {sequence.title}
                           </h3>
-                          <p className="text-sm">{sequence.author}</p>
                           <p className="text-sm">{sequence.updateDateTime}</p>
                         </div>
                       </Link>
