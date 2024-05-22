@@ -105,9 +105,13 @@ const BottomPlayer = () => {
         </button>
       </div>
       {isPopupVisible && <BgmPopup />}
-      {currentBgm && isPlaying && (
+      {currentBgm && (
         <div className="fixed bottom-0 left-0 right-0 mt-20 mx-8 text-center text-white">
-          <span>Now Playing: {currentBgm.name}</span>
+          {isPlaying ? (
+            <span>Now Playing: {currentBgm.name}</span>
+          ) : (
+            <span>{currentBgm.name}</span>
+          )}
         </div>
       )}
     </div>

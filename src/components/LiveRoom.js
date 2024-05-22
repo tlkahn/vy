@@ -15,6 +15,7 @@ import {
 } from 'agora-rtc-sdk-ng/esm';
 
 import BottomPlayer from './BottomPlayer';
+import OnlinerList from './OnlinerList';
 
 console.log('Current SDK VERSION: ', VERSION);
 
@@ -208,6 +209,7 @@ function LiveRoom() {
           </div>
         ) : null}
       </div>
+      <OnlinerList />
       <BottomPlayer />
     </>
   );
