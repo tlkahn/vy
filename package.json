@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "agora-rtc-sdk-ng": "^4.20.2",
     "autoprefixer": "^10.4.19",
     "font-awesome": "^4.7.0",
     "postcss": "^8.4.38",

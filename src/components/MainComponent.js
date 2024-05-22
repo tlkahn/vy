@@ -113,7 +113,7 @@ function MainComponent() {
         <main id="main-content" className="w-full md:w-3/4">
           <div className="header mb-8 flex justify-between items-center">
             <h1 className="text-3xl font-bold">{greetingMsg}</h1>
-            <div class="header-utils space-x-8">
+            <div className="header-utils space-x-8">
               <Link to="/app/search">
                 <i className="fa fa-search" aria-hidden="true" />
               </Link>
