@@ -7,8 +7,8 @@ const getGreetingMessage = () => {
   return currentHour < 4 || currentHour >= 18
     ? 'Good night'
     : currentHour < 12
-      ? 'Good morning'
-      : 'Good afternoon';
+    ? 'Good morning'
+    : 'Good afternoon';
 };
 
 function MainComponent() {
@@ -43,7 +43,7 @@ function MainComponent() {
   const setRefs = (tagId, element, isScrollContainer) => {
     (isScrollContainer ? scrollContainerRefs : listItemRefs).current.set(
       tagId,
-      element,
+      element
     );
   };
 
@@ -72,14 +72,14 @@ function MainComponent() {
       .then((data) => setTags(data));
   }, []);
 
-  let logoUrl = 'http://localhost:3000/images/logo.svg';
+  const logoUrl = 'http://localhost:3000/images/logo.svg';
 
   return (
     <div className="scene-video-background bg-gray-700 text-white min-h-screen">
       <div className="main container mx-auto px-4 py-8 flex flex-col md:flex-row h-full space-y-4 md:space-y-0 md:space-x-8">
         <aside className="flex flex-col w-full md:w-1/4 p-4 space-y-4">
           <div className="flex items-center justify-between">
-            <Link to="/" className="logo-wrapper">
+            <Link to="/home" className="logo-wrapper">
               <img src={logoUrl} alt="Logo" />
             </Link>
             <button
