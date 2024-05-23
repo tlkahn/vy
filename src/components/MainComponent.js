@@ -7,8 +7,8 @@ const getGreetingMessage = () => {
   return currentHour < 4 || currentHour >= 18
     ? 'Good night'
     : currentHour < 12
-      ? 'Good morning'
-      : 'Good afternoon';
+    ? 'Good morning'
+    : 'Good afternoon';
 };
 
 function MainComponent() {
@@ -58,7 +58,7 @@ function MainComponent() {
   const setRefs = (tagId, element, isScrollContainer) => {
     (isScrollContainer ? scrollContainerRefs : listItemRefs).current.set(
       tagId,
-      element,
+      element
     );
   };
 
@@ -194,11 +194,13 @@ function MainComponent() {
                         to={sequence.url}
                         className="sequence-btn flex-col space-y-4"
                       >
-                        <img
-                          src={sequence.cover}
-                          alt={sequence.title}
-                          className="w-full h-auto object-cover rounded-md"
-                        />
+                        <div className="w-full relative overflow-hidden rounded-md aspect-w-1 aspect-h-1">
+                          <img
+                            src={sequence.cover}
+                            alt={sequence.title}
+                            className="absolute inset-0 w-full h-auto object-cover transform transition-transform duration-300 hover:scale-105"
+                          />
+                        </div>
                         <h3 className="text-lg font-semibold">
                           {sequence.title}
                         </h3>
