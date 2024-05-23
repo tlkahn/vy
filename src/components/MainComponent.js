@@ -7,8 +7,8 @@ const getGreetingMessage = () => {
   return currentHour < 4 || currentHour >= 18
     ? 'Good night'
     : currentHour < 12
-    ? 'Good morning'
-    : 'Good afternoon';
+      ? 'Good morning'
+      : 'Good afternoon';
 };
 
 function MainComponent() {
@@ -58,7 +58,7 @@ function MainComponent() {
   const setRefs = (tagId, element, isScrollContainer) => {
     (isScrollContainer ? scrollContainerRefs : listItemRefs).current.set(
       tagId,
-      element
+      element,
     );
   };
 
@@ -92,7 +92,7 @@ function MainComponent() {
   return (
     <div className="scene-video-background bg-gray-700 text-white min-h-screen">
       <div className="main container mx-auto px-4 py-8 flex flex-col md:flex-row h-full space-y-4 md:space-y-0 md:space-x-8">
-        <aside className="flex flex-col w-full md:w-1/4 pt-4 pl-4 pr-4 space-y-4">
+        <aside className="flex flex-col w-full md:w-1/4 lg:w-1/7 pt-4 pl-4 pr-4 space-y-4">
           <div className="flex items-center justify-between">
             <Link to="/home" className="logo-wrapper">
               <img src={logoUrl} alt="Logo" />
@@ -105,7 +105,7 @@ function MainComponent() {
             </button>
           </div>
           <nav className={`${isMenuOpen ? 'block' : 'hidden'} md:block`}>
-            <ul className="space-y-1">
+            <ul className="space-y-4 mt-4">
               {categories.map((category) => (
                 <li key={category.id} className="hover:bg-gray-800 rounded">
                   <Link
@@ -118,7 +118,7 @@ function MainComponent() {
                         aria-hidden="true"
                       ></i>
                     </span>
-                    <span className="text-xl">{category.title}</span>
+                    <span className="text-2xl">{category.title}</span>
                   </Link>
                 </li>
               ))}
@@ -130,13 +130,13 @@ function MainComponent() {
                   <span className="inline-flex items-center justify-center w-6">
                     <i className="fa fa-sign-out" aria-hidden="true"></i>
                   </span>
-                  <span className="text-xl">Sign out</span>
+                  <span className="text-2xl">Sign out</span>
                 </button>
               </li>
             </ul>
           </nav>
         </aside>
-        <main id="main-content" className="w-full md:w-3/4 pt-4">
+        <main id="main-content" className="w-full md:w-3/4 lg:w-6/7 pt-4">
           <div className="header mb-8 flex justify-between items-center">
             <div className="relative flex-grow">
               <input
@@ -182,31 +182,27 @@ function MainComponent() {
               <div className="tag-contents">
                 <ul
                   ref={(el) => setRefs(index, el, true)}
-                  className="flex overflow-x-scroll space-x-4"
+                  className="flex overflow-x-scroll space-x-4 text-left"
                 >
                   {tag.sequences.map((sequence, index) => (
                     <li
                       key={sequence.id}
-                      className="mb-4 flex-shrink-0"
+                      className="mb-4 flex-shrink-0 w-2/3 md:w-2/5 lg:w-2/7"
                       ref={(el) => setRefs(index, el, false)}
                     >
                       <Link
                         to={sequence.url}
                         className="sequence-btn flex-col space-y-4"
                       >
-                        <div>
-                          <img
-                            src={sequence.cover}
-                            alt={sequence.title}
-                            className="w-full h-auto object-cover rounded-md"
-                          />
-                        </div>
-                        <div>
-                          <h3 className="text-lg font-semibold">
-                            {sequence.title}
-                          </h3>
-                          <p className="text-sm">{sequence.updateDateTime}</p>
-                        </div>
+                        <img
+                          src={sequence.cover}
+                          alt={sequence.title}
+                          className="w-full h-auto object-cover rounded-md"
+                        />
+                        <h3 className="text-lg font-semibold">
+                          {sequence.title}
+                        </h3>
+                        <p className="text-sm">{sequence.updateDateTime}</p>
                       </Link>
                     </li>
                   ))}
