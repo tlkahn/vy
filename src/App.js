@@ -8,6 +8,7 @@ import MainComponent from './components/MainComponent';
 import SequenceComponent from './components/SequenceComponent';
 import CategoryComponent from './components/CategoryComponent';
 import { UserAuthContextProvider } from './context/UserAuthContext';
+import LiveRoom from './components/LiveRoom';
 
 function App() {
   const [message, setMessage] = useState('');
@@ -27,6 +28,7 @@ function App() {
           {/* Below are protected domains */}
           <Route path="/home" element={<MainComponent />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/liveroom" element={<LiveRoom />} />
           <Route path="/sequence/:id" element={<SequenceComponent />} />
           <Route path="/category/:id" element={<CategoryComponent />} />
         </Routes>

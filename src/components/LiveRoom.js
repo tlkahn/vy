@@ -1,11 +1,5 @@
 import React, { useState, useRef } from 'react';
 import {
-  ICameraVideoTrack,
-  IMicrophoneAudioTrack,
-  IAgoraRTCClient,
-  IAgoraRTCRemoteUser,
-} from 'agora-rtc-sdk-ng/esm';
-import {
   VERSION,
   createClient,
   createCameraVideoTrack,
@@ -16,6 +10,7 @@ import {
 
 import BottomPlayer from './BottomPlayer';
 import OnlinerList from './OnlinerList';
+import SideMenu from './SideMenu';
 
 console.log('Current SDK VERSION: ', VERSION);
 
@@ -138,79 +133,94 @@ function LiveRoom() {
 
   return (
     <>
-      <div className="left-side">
-        <h3>Pleat check you camera / microphone!</h3>
-        <div className="buttons">
-          <button
-            onClick={() => turnOnCamera()}
-            className={isVideoOn ? 'button-on' : ''}
-          >
-            Turn {isVideoOn ? 'off' : 'on'} camera
-          </button>
-          <button
-            onClick={() => turnOnMicrophone()}
-            className={isAudioOn ? 'button-on' : ''}
-          >
-            Turn {isAudioOn ? 'off' : 'on'} Microphone
-          </button>
-        </div>
-        <h3>
-          {`Please input the appid and token (`}
-          <a href="https://www.agora.io/en/blog/how-to-get-started-with-agora">
-            Create an account.
-          </a>
-          {`) `}
-        </h3>
-        <input
-          defaultValue={appid.current}
-          placeholder="appid"
-          onChange={(e) => (appid.current = e.target.value)}
-        />
-        <input
-          defaultValue={token.current}
-          placeholder="token"
-          onChange={(e) => (token.current = e.target.value)}
-        />
-        <h3>Please input the channel name</h3>
-        <input
-          defaultValue={channel.current}
-          onChange={(e) => (channel.current = e.target.value)}
-        />
-        <h3>Please input the uid</h3>
-        <input
-          defaultValue={uid.current}
-          onChange={(e) => (uid.current = e.target.value)}
-        />
-        <div className="buttons">
-          <button onClick={joinChannel} className={isJoined ? 'button-on' : ''}>
-            Join Channel
-          </button>
-          <button
-            onClick={publishVideo}
-            className={isVideoPubed ? 'button-on' : ''}
-          >
-            Publish Video
-          </button>
-          <button
-            onClick={publishAudio}
-            className={isAudioPubed ? 'button-on' : ''}
-          >
-            Publish Audio
-          </button>
-          <button onClick={leaveChannel}>Leave Channel</button>
-        </div>
-      </div>
-      <div className="right-side">
-        <video id="camera-video" hidden={isVideoOn ? false : true}></video>
-        <video id="remote-video" hidden={isVideoSubed ? false : true}></video>
-        {isJoined && !isVideoSubed ? (
-          <div className="waiting">
-            You are sharing channel {channel.current} with others.....
+      <div className="scene-video-background bg-gray-700 text-white min-h-screen">
+        <div className="main container mx-auto px-4 py-8 flex flex-col md:flex-row h-full space-y-4 md:space-y-0 md:space-x-8">
+          <SideMenu />
+          <div id="main-content" className="w-full md:w-3/4 lg:w-6/7 pt-4">
+            <OnlinerList />
+            <BottomPlayer />
           </div>
-        ) : null}
+        </div>
+        <div className="hidden">
+          <div className="left-side">
+            <h3>Pleat check you camera / microphone!</h3>
+            <div className="buttons">
+              <button
+                onClick={() => turnOnCamera()}
+                className={isVideoOn ? 'button-on' : ''}
+              >
+                Turn {isVideoOn ? 'off' : 'on'} camera
+              </button>
+              <button
+                onClick={() => turnOnMicrophone()}
+                className={isAudioOn ? 'button-on' : ''}
+              >
+                Turn {isAudioOn ? 'off' : 'on'} Microphone
+              </button>
+            </div>
+            <h3>
+              {`Please input the appid and token (`}
+              <a href="https://www.agora.io/en/blog/how-to-get-started-with-agora">
+                Create an account.
+              </a>
+              {`) `}
+            </h3>
+            <input
+              defaultValue={appid.current}
+              placeholder="appid"
+              onChange={(e) => (appid.current = e.target.value)}
+            />
+            <input
+              defaultValue={token.current}
+              placeholder="token"
+              onChange={(e) => (token.current = e.target.value)}
+            />
+            <h3>Please input the channel name</h3>
+            <input
+              defaultValue={channel.current}
+              onChange={(e) => (channel.current = e.target.value)}
+            />
+            <h3>Please input the uid</h3>
+            <input
+              defaultValue={uid.current}
+              onChange={(e) => (uid.current = e.target.value)}
+            />
+            <div className="buttons">
+              <button
+                onClick={joinChannel}
+                className={isJoined ? 'button-on' : ''}
+              >
+                Join Channel
+              </button>
+              <button
+                onClick={publishVideo}
+                className={isVideoPubed ? 'button-on' : ''}
+              >
+                Publish Video
+              </button>
+              <button
+                onClick={publishAudio}
+                className={isAudioPubed ? 'button-on' : ''}
+              >
+                Publish Audio
+              </button>
+              <button onClick={leaveChannel}>Leave Channel</button>
+            </div>
+          </div>
+          <div className="right-side">
+            <video id="camera-video" hidden={isVideoOn ? false : true}></video>
+            <video
+              id="remote-video"
+              hidden={isVideoSubed ? false : true}
+            ></video>
+            {isJoined && !isVideoSubed ? (
+              <div className="waiting">
+                You are sharing channel {channel.current} with others.....
+              </div>
+            ) : null}
+          </div>
+        </div>
       </div>
-      <OnlinerList />
-      <BottomPlayer />
     </>
   );
 }
