@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import 'font-awesome/css/font-awesome.min.css';
 
 const getGreetingMessage = () => {
@@ -18,6 +18,14 @@ function MainComponent() {
   const [tags, setTags] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleNavigation = (path) => {
+    navigate(path);
+    setIsDropdownOpen(false);
+  };
 
   const handleLogin = () => {
     // Perform your login logic here, and then update the state:
@@ -39,6 +47,13 @@ function MainComponent() {
 
   const scrollContainerRefs = useRef(new Map());
   const listItemRefs = useRef(new Map());
+  const searchInputRef = useRef(null);
+
+  const handleSearchFocus = () => {
+    if (searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  };
 
   const setRefs = (tagId, element, isScrollContainer) => {
     (isScrollContainer ? scrollContainerRefs : listItemRefs).current.set(
@@ -77,7 +92,7 @@ function MainComponent() {
   return (
     <div className="scene-video-background bg-gray-700 text-white min-h-screen">
       <div className="main container mx-auto px-4 py-8 flex flex-col md:flex-row h-full space-y-4 md:space-y-0 md:space-x-8">
-        <aside className="flex flex-col w-full md:w-1/4 p-4 space-y-4">
+        <aside className="flex flex-col w-full md:w-1/4 pt-4 pl-4 pr-4 space-y-4">
           <div className="flex items-center justify-between">
             <Link to="/home" className="logo-wrapper">
               <img src={logoUrl} alt="Logo" />
@@ -92,34 +107,50 @@ function MainComponent() {
           <nav className={`${isMenuOpen ? 'block' : 'hidden'} md:block`}>
             <ul className="space-y-1">
               {categories.map((category) => (
-                <li key={category.id}>
+                <li key={category.id} className="hover:bg-gray-800 rounded">
                   <Link
                     to={category.url}
                     className="flex items-center space-x-2"
                   >
-                    <div>
+                    <span className="inline-flex items-center justify-center w-6">
                       <i
                         className={`fa ${category.icon}`}
                         aria-hidden="true"
                       ></i>
-                    </div>
-                    <div>{category.title}</div>
+                    </span>
+                    <span className="text-xl">{category.title}</span>
                   </Link>
                 </li>
               ))}
+              <li key="sign-out" className="hover:bg-gray-800 rounded">
+                <button
+                  onClick={() => handleNavigation('/logout')}
+                  className="block w-full text-left space-x-2 focus:outline-none whitespace-nowrap flex items-center"
+                >
+                  <span className="inline-flex items-center justify-center w-6">
+                    <i className="fa fa-sign-out" aria-hidden="true"></i>
+                  </span>
+                  <span className="text-xl">Sign out</span>
+                </button>
+              </li>
             </ul>
           </nav>
         </aside>
-        <main id="main-content" className="w-full md:w-3/4">
+        <main id="main-content" className="w-full md:w-3/4 pt-4">
           <div className="header mb-8 flex justify-between items-center">
-            <h1 className="text-3xl font-bold">{greetingMsg}</h1>
-            <div className="header-utils space-x-8">
-              <Link to="/app/search">
+            <div className="relative flex-grow">
+              <input
+                type="text"
+                ref={searchInputRef}
+                placeholder={greetingMsg}
+                className="text-3xl font-bold border-0 focus:ring-0 focus:outline-none bg-transparent w-full"
+              />
+              <button
+                onClick={handleSearchFocus}
+                className="absolute right-0 top-1/2 transform -translate-y-1/2 focus:outline-none"
+              >
                 <i className="fa fa-search" aria-hidden="true" />
-              </Link>
-              <Link to="/app/profile">
-                <i className="fa fa-user" aria-hidden="true" />
-              </Link>
+              </button>
             </div>
           </div>
           {tags.map((tag, index) => (
