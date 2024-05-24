@@ -8,14 +8,15 @@ const getGreetingMessage = () => {
   return currentHour < 4 || currentHour >= 18
     ? 'Good night'
     : currentHour < 12
-    ? 'Good morning'
-    : 'Good afternoon';
+      ? 'Good morning'
+      : 'Good afternoon';
 };
 
 function MainComponent() {
   const [greetingMsg, setGreetingMsg] = useState('');
   const [tags, setTags] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [editingField, setEditingField] = useState(null);
 
   const navigate = useNavigate();
 
@@ -54,7 +55,7 @@ function MainComponent() {
   const setRefs = (tagId, element, isScrollContainer) => {
     (isScrollContainer ? scrollContainerRefs : listItemRefs).current.set(
       tagId,
-      element
+      element,
     );
   };
 

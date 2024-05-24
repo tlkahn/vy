@@ -1,6 +1,6 @@
 // src/App.js
-import React, { useState, useEffect, Profiler } from 'react';
-import { BrowserRouter, Route, Routes, Outlet } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Profile from './components/Profile';
