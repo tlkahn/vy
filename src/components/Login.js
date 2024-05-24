@@ -43,10 +43,10 @@ const Login = () => {
               <img src={logoUrl} alt="Logo" />
             </Link>
           </div>
-          <h2 class="mb-3 text-xl text-center p-4 font-semibold">Log in</h2>
+          <h2 className="mb-3 text-xl text-center p-4 font-semibold">Log in</h2>
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={handleSubmit}>
-            <Form.Group class="mb-3" controlId="formBasicEmail">
+            <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Control
                 className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 text-gray-700"
                 type="email"
@@ -55,7 +55,7 @@ const Login = () => {
               />
             </Form.Group>
 
-            <Form.Group class="mb-3" controlId="formBasicPassword">
+            <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Control
                 className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
                 type="password"
@@ -64,7 +64,7 @@ const Login = () => {
               />
             </Form.Group>
 
-            <div class="grid gap-2">
+            <div className="grid gap-2">
               <Button
                 className="bg-deep-blue-600 hover:bg-deep-blue-700 text-white font-semibold py-2 px-4 rounded-lg"
                 type="Submit"
@@ -73,10 +73,10 @@ const Login = () => {
               </Button>
             </div>
           </Form>
-          <hr class="my-4" />
-          <div>
+          <hr className="my-4" />
+          <div className="flex justify-center">
             <GoogleButton
-              class="g-btn"
+              className="g-btn"
               type="dark"
               onClick={handleGoogleSignIn}
             />

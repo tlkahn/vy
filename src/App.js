@@ -1,6 +1,6 @@
 // src/App.js
 import React, { useState, useEffect, Profiler } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Outlet } from 'react-router-dom';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Profile from './components/Profile';
@@ -9,6 +9,7 @@ import SequenceComponent from './components/SequenceComponent';
 import CategoryComponent from './components/CategoryComponent';
 import { UserAuthContextProvider } from './context/UserAuthContext';
 import LiveRoom from './components/LiveRoom';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   const [message, setMessage] = useState('');
@@ -26,11 +27,13 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           {/* Below are protected domains */}
-          <Route path="/home" element={<MainComponent />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/liveroom" element={<LiveRoom />} />
-          <Route path="/sequence/:id" element={<SequenceComponent />} />
-          <Route path="/category/:id" element={<CategoryComponent />} />
+          <Route path="*" element={<ProtectedRoute />}>
+            <Route path="home" element={<MainComponent />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="liveroom" element={<LiveRoom />} />
+            <Route path="sequence/:id" element={<SequenceComponent />} />
+            <Route path="category/:id" element={<CategoryComponent />} />
+          </Route>
         </Routes>
       </UserAuthContextProvider>
     </BrowserRouter>
