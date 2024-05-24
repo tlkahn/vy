@@ -8,7 +8,6 @@ const SideMenu = () => {
   const [categories, setCategories] = useState([]);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [editingField, setEditingField] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
 
   const nameRef = useRef(null);
   const emailRef = useRef(null);
@@ -149,39 +148,6 @@ const SideMenu = () => {
                       event,
                       'name',
                       nameRef.current.textContent
-                    )
-                  }
-                  className="text-white focus:outline-none"
-                >
-                  <i
-                    className={`fa fa-edit ${editingField ? 'hidden' : ''}`}
-                    aria-hidden="true"
-                  ></i>
-                </button>
-              </div>
-              <div className="flex justify-between items-center">
-                <div
-                  ref={emailRef}
-                  contentEditable={editingField === 'email'}
-                  suppressContentEditableWarning
-                  onKeyDown={(e) => handleKeyDown(e, 'name')}
-                  onBlur={(e) =>
-                    handleFieldSubmit('email', e.target.textContent)
-                  }
-                  className={`font-semibold ${
-                    editingField === 'email'
-                      ? 'bg-yellow-100 text-gray-700'
-                      : ''
-                  }`}
-                >
-                  john.doe@example.com
-                </div>
-                <button
-                  onClick={(event) =>
-                    handleEditButtonClick(
-                      event,
-                      'email',
-                      emailRef.current.textContent
                     )
                   }
                   className="text-white focus:outline-none"
