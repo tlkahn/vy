@@ -8,8 +8,8 @@ const getGreetingMessage = () => {
   return currentHour < 4 || currentHour >= 18
     ? 'Good night'
     : currentHour < 12
-      ? 'Good morning'
-      : 'Good afternoon';
+    ? 'Good morning'
+    : 'Good afternoon';
 };
 
 function MainComponent() {
@@ -55,7 +55,7 @@ function MainComponent() {
   const setRefs = (tagId, element, isScrollContainer) => {
     (isScrollContainer ? scrollContainerRefs : listItemRefs).current.set(
       tagId,
-      element,
+      element
     );
   };
 
@@ -80,7 +80,7 @@ function MainComponent() {
 
   return (
     <div className="scene-video-background bg-gray-700 text-white min-h-screen">
-      <div className="main container mx-auto px-4 py-8 flex flex-col md:flex-row h-full space-y-4 md:space-y-0 md:space-x-8">
+      <div className="main container mx-auto px-4 py-8 flex flex-col md:flex-row h-full">
         <SideMenu />
         <main id="main-content" className="w-full md:w-3/4 lg:w-6/7 pt-4">
           <div className="header mb-8 flex justify-between items-center">
