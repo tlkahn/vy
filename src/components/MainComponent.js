@@ -84,19 +84,19 @@ function MainComponent() {
         <SideMenu />
         <main id="main-content" className="w-full md:w-3/4 lg:w-6/7 pt-4">
           <div className="header mb-8 flex justify-between items-center">
-            <div className="relative flex-grow">
+            <div className="relative flex-grow flex items-center">
+              <button
+                onClick={handleSearchFocus}
+                className="absolute left-0 top-1/2 transform -translate-y-1/2 focus:outline-none text-gray-500"
+              >
+                <i className="fa fa-search" aria-hidden="true" />
+              </button>
               <input
                 type="text"
                 ref={searchInputRef}
                 placeholder={greetingMsg}
-                className="text-3xl font-bold border-0 focus:ring-0 focus:outline-none bg-transparent w-full"
+                className="text-3xl font-bold border-0 focus:ring-0 focus:outline-none bg-transparent w-full pl-8"
               />
-              <button
-                onClick={handleSearchFocus}
-                className="absolute right-0 top-1/2 transform -translate-y-1/2 focus:outline-none"
-              >
-                <i className="fa fa-search" aria-hidden="true" />
-              </button>
             </div>
           </div>
           {tags.map((tag, index) => (
