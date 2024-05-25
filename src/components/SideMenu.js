@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const logoUrl = 'http://localhost:3000/images/logo.svg';
 const profileTitle = 'Profile';
@@ -13,6 +13,8 @@ const SideMenu = () => {
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const descriptionRef = useRef(null);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const handleProfileButtonClick = () => {
     setIsProfileModalOpen(true);
@@ -73,7 +75,11 @@ const SideMenu = () => {
         </div>
         <nav className={`${isMenuOpen ? 'block' : 'hidden'} md:block`}>
           <ul className="space-y-4 mt-8">
-            <li className="hover:bg-gray-800 rounded">
+            <li
+              className={`hover:bg-gray-800 rounded ${
+                location.pathname === '/home' ? 'bg-gray-900' : ''
+              }`}
+            >
               <Link to="/home" className="flex items-center space-x-2">
                 <span className="inline-flex items-center justify-center w-6">
                   <i className={'fa fa-dot-circle-o'} aria-hidden="true"></i>
@@ -81,7 +87,11 @@ const SideMenu = () => {
                 <span className="text-2xl">Meditate</span>
               </Link>
             </li>
-            <li className="hover:bg-gray-800 rounded">
+            <li
+              className={`hover:bg-gray-800 rounded ${
+                location.pathname === '/liveroom' ? 'bg-gray-900' : ''
+              }`}
+            >
               <Link to="/liveroom" className="flex items-center space-x-2">
                 <span className="inline-flex items-center justify-center w-6">
                   <i className={'fa fa-bolt'} aria-hidden="true"></i>
@@ -89,7 +99,12 @@ const SideMenu = () => {
                 <span className="text-2xl">Now</span>
               </Link>
             </li>
-            <li key="profile" className="hover:bg-gray-800 rounded">
+            <li
+              key="profile"
+              className={`hover:bg-gray-800 rounded ${
+                isProfileModalOpen ? 'bg-gray-900' : ''
+              }`}
+            >
               <button
                 onClick={handleProfileButtonClick}
                 className="block w-full text-left space-x-2 focus:outline-none whitespace-nowrap flex items-center"
