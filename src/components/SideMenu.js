@@ -2,13 +2,11 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 const logoUrl = 'http://localhost:3000/images/logo.svg';
-const categoryUrl = 'http://localhost:3000/api/categories';
 const profileTitle = 'Profile';
 const signoutTitle = 'Sign out';
 
 const SideMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [categories, setCategories] = useState([]);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [editingField, setEditingField] = useState(null);
 
@@ -56,13 +54,6 @@ const SideMenu = () => {
   };
 
   useEffect(() => {
-    // Fetch categories
-    fetch(categoryUrl)
-      .then((response) => response.json())
-      .then((data) => setCategories(data));
-  });
-
-  useEffect(() => {
     console.log('editingField:', editingField);
   }, [editingField]);
 
@@ -82,16 +73,22 @@ const SideMenu = () => {
         </div>
         <nav className={`${isMenuOpen ? 'block' : 'hidden'} md:block`}>
           <ul className="space-y-4 mt-8">
-            {categories.map((category) => (
-              <li key={category.id} className="hover:bg-gray-800 rounded">
-                <Link to={category.url} className="flex items-center space-x-2">
-                  <span className="inline-flex items-center justify-center w-6">
-                    <i className={`fa ${category.icon}`} aria-hidden="true"></i>
-                  </span>
-                  <span className="text-2xl">{category.title}</span>
-                </Link>
-              </li>
-            ))}
+            <li className="hover:bg-gray-800 rounded">
+              <Link to="/home" className="flex items-center space-x-2">
+                <span className="inline-flex items-center justify-center w-6">
+                  <i className={'fa fa-dot-circle-o'} aria-hidden="true"></i>
+                </span>
+                <span className="text-2xl">Meditate</span>
+              </Link>
+            </li>
+            <li className="hover:bg-gray-800 rounded">
+              <Link to="/liveroom" className="flex items-center space-x-2">
+                <span className="inline-flex items-center justify-center w-6">
+                  <i className={'fa fa-bolt'} aria-hidden="true"></i>
+                </span>
+                <span className="text-2xl">Now</span>
+              </Link>
+            </li>
             <li key="profile" className="hover:bg-gray-800 rounded">
               <button
                 onClick={handleProfileButtonClick}
