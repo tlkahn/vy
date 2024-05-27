@@ -6,15 +6,15 @@ function OnlinerList() {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch('http://localhost:3000/api/onlinersof');
+      const response = await fetch('http://localhost:3000/api/onliners');
       setOnliners(await response.json());
     })();
   }, []);
 
   return (
-    <ul className="list-none">
+    <ul className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-7 gap-4">
       {onliners.map((onliner) => (
-        <li key={onliner.id} className="flex items-center space-x-2">
+        <li key={onliner.id} className="flex flex-col items-center">
           <Jdenticon size="48" value={onliner.alias} />
           <span className="text-sm">{onliner.alias}</span>
         </li>

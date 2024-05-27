@@ -97,7 +97,7 @@ const SideMenu = () => {
           </button>
         </div>
         <nav className={`${isMenuOpen ? 'block' : 'hidden'} md:block`}>
-          <ul className="space-y-4 mt-8">
+          <ul className="space-y-4 mt-8 pr-4">
             <li
               className={`hover:bg-gray-800 rounded ${
                 location.pathname === '/home' ? 'bg-gray-900' : ''
