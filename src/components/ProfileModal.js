@@ -12,6 +12,19 @@ const ProfileModal = ({
   const nameRef = useRef(null);
   const descriptionRef = useRef(null);
 
+  useEffect(() => {
+    if (userId) {
+      fetch(`http://localhost:3000/api/onliners/${userId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (nameRef.current) nameRef.current.textContent = data.alias;
+          if (descriptionRef.current)
+            descriptionRef.current.textContent = data.description;
+        })
+        .catch((error) => console.error('Error fetching user data:', error));
+    }
+  }, [userId]);
+
   // Update the handleFieldSubmit function to reset the editingField state
   const handleFieldSubmit = (field, value) => {
     console.log(`Submitting ${field}: ${value}`);
@@ -87,9 +100,7 @@ const ProfileModal = ({
                 className={`font-semibold ${
                   editingField === 'name' ? 'bg-yellow-100 text-gray-700' : ''
                 }`}
-              >
-                John Doe @ {userId}
-              </div>
+              ></div>
               <button
                 onClick={() =>
                   handleEditButtonClick('name', nameRef.current.textContent)
@@ -117,9 +128,7 @@ const ProfileModal = ({
                     ? 'bg-yellow-100 text-gray-700'
                     : ''
                 }`}
-              >
-                Just another meditator
-              </div>
+              ></div>
               <button
                 onClick={() =>
                   handleEditButtonClick(
