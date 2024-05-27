@@ -10,7 +10,7 @@ const signoutTitle = 'Sign out';
 const SideMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
-  const { logOut } = useUserAuth();
+  const { logOut, user } = useUserAuth();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -102,6 +102,7 @@ const SideMenu = () => {
       <ProfileModal
         isProfileModalOpen={isProfileModalOpen}
         setIsProfileModalOpen={setIsProfileModalOpen}
+        userId={user.uid}
       />
     </>
   );

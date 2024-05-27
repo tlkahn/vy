@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const ProfileModal = ({ isProfileModalOpen, setIsProfileModalOpen }) => {
+const ProfileModal = ({
+  isProfileModalOpen,
+  setIsProfileModalOpen,
+  userId,
+}) => {
   if (!isProfileModalOpen) return null;
 
   const [editingField, setEditingField] = useState(null);
@@ -84,7 +88,7 @@ const ProfileModal = ({ isProfileModalOpen, setIsProfileModalOpen }) => {
                   editingField === 'name' ? 'bg-yellow-100 text-gray-700' : ''
                 }`}
               >
-                John Doe
+                John Doe @ {userId}
               </div>
               <button
                 onClick={() =>

@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import Jdenticon from 'react-jdenticon';
+import ProfileModal from './ProfileModal';
 
 function OnlinerList() {
   const [onliners, setOnliners] = useState([]);
+  const [profileUserId, setProfileUserId] = useState(null);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+
+  const handleOnlinerClick = (userId) => {
+    setProfileUserId(userId);
+    setIsProfileModalOpen(true);
+  };
 
   useEffect(() => {
     (async () => {
@@ -12,17 +20,27 @@ function OnlinerList() {
   }, []);
 
   return (
-    <ul className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-7 gap-4">
-      {onliners.map((onliner) => (
-        <li
-          key={onliner.id}
-          className="flex flex-col items-center cursor-pointer hover:bg-gray-600 p-2 rounded-lg"
-        >
-          <Jdenticon size="48" value={onliner.alias} />
-          <span className="text-sm">{onliner.alias}</span>
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-7 gap-4">
+        {onliners.map((onliner) => (
+          <li
+            key={onliner.id}
+            className="flex flex-col items-center cursor-pointer hover:bg-gray-600 p-2 rounded-lg"
+            onClick={() => handleOnlinerClick(onliner.id)}
+          >
+            <Jdenticon size="48" value={onliner.alias} />
+            <span className="text-sm">{onliner.alias}</span>
+          </li>
+        ))}
+      </ul>
+      {isProfileModalOpen && (
+        <ProfileModal
+          isProfileModalOpen={isProfileModalOpen}
+          setIsProfileModalOpen={setIsProfileModalOpen}
+          userId={profileUserId}
+        />
+      )}
+    </>
   );
 }
 
