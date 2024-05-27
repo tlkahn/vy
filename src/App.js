@@ -10,6 +10,7 @@ import { UserAuthContextProvider } from './context/UserAuthContext';
 import LiveRoom from './components/LiveRoom';
 import ProtectedRoute from './components/ProtectedRoute';
 import AudioPlayer from './components/AudioPlayer';
+import { QuestionHistoryProvider } from './context/QuestionHistoryContext';
 
 function App() {
   const [message, setMessage] = useState('');
@@ -23,18 +24,20 @@ function App() {
   return (
     <BrowserRouter>
       <UserAuthContextProvider>
-        <AudioPlayer />
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          {/* Below are protected domains */}
-          <Route path="*" element={<ProtectedRoute />}>
-            <Route path="home" element={<MainComponent />} />
-            <Route path="liveroom" element={<LiveRoom />} />
-            <Route path="sequence/:id" element={<SequenceComponent />} />
-            <Route path="category/:id" element={<CategoryComponent />} />
-          </Route>
-        </Routes>
+        <QuestionHistoryProvider>
+          <AudioPlayer />
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            {/* Below are protected domains */}
+            <Route path="*" element={<ProtectedRoute />}>
+              <Route path="home" element={<MainComponent />} />
+              <Route path="liveroom" element={<LiveRoom />} />
+              <Route path="sequence/:id" element={<SequenceComponent />} />
+              <Route path="category/:id" element={<CategoryComponent />} />
+            </Route>
+          </Routes>
+        </QuestionHistoryProvider>
       </UserAuthContextProvider>
     </BrowserRouter>
   );

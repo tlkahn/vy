@@ -83,6 +83,18 @@ const BottomPlayer = () => {
 
   const toggleModal = () => setIsModalVisible(!isModalVisible);
 
+  useEffect(() => {
+    const closeOnEsc = (event) => {
+      if (event.key === 'Escape') {
+        setIsModalVisible(false);
+      }
+    };
+
+    document.addEventListener('keydown', closeOnEsc);
+
+    return () => document.removeEventListener('keydown', closeOnEsc);
+  }, []);
+
   const handleQuestionSubmit = (e) => {
     e.preventDefault();
     // Handle the question submission logic here

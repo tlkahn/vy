@@ -68,7 +68,7 @@ const SideMenu = () => {
                 <span className="text-2xl">Now</span>
               </Link>
             </li>
-            <hr class="my-2 border-gray-00" />
+            <hr className="my-2 border-gray-00" />
             <li
               key="profile"
               className={`hover:bg-gray-800 rounded ${
