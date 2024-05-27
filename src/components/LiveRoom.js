@@ -134,7 +134,7 @@ function LiveRoom() {
   return (
     <>
       <div className="scene-video-background bg-gray-700 text-white min-h-screen">
-        <div className="main container mx-auto px-4 py-8 flex flex-col md:flex-row h-full space-y-4 md:space-y-0 md:space-x-8">
+        <div className="main container mx-auto px-4 py-8 flex flex-col md:flex-row h-full space-y-4 md:space-y-0">
           <SideMenu />
           <div id="main-content" className="w-full md:w-3/4 lg:w-6/7 pt-4">
             <OnlinerList />
