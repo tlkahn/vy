@@ -39,7 +39,7 @@ const SideMenu = () => {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="md:hidden focus:outline-none"
           >
-            <i className="fa fa-bars" aria-hidden="true"></i>
+            <i className="fa fa-bars"></i>
           </button>
         </div>
         <nav className={`${isMenuOpen ? 'block' : 'hidden'} md:block`}>
@@ -51,7 +51,7 @@ const SideMenu = () => {
             >
               <Link to="/home" className="flex items-center space-x-2">
                 <span className="inline-flex items-center justify-center w-6">
-                  <i className={'fa fa-dot-circle-o'} aria-hidden="true"></i>
+                  <i className={'fa fa-dot-circle-o'}></i>
                 </span>
                 <span className="text-2xl">Meditate</span>
               </Link>
@@ -63,7 +63,7 @@ const SideMenu = () => {
             >
               <Link to="/liveroom" className="flex items-center space-x-2">
                 <span className="inline-flex items-center justify-center w-6">
-                  <i className={'fa fa-bolt'} aria-hidden="true"></i>
+                  <i className={'fa fa-bolt'}></i>
                 </span>
                 <span className="text-2xl">Now</span>
               </Link>
@@ -80,7 +80,7 @@ const SideMenu = () => {
                 className="block w-full text-left space-x-2 focus:outline-none whitespace-nowrap flex items-center"
               >
                 <span className="inline-flex items-center justify-center w-6">
-                  <i className="fa fa-user" aria-hidden="true"></i>
+                  <i className="fa fa-user"></i>
                 </span>
                 <span className="text-2xl">{profileTitle}</span>
               </button>
@@ -91,7 +91,7 @@ const SideMenu = () => {
                 className="block w-full text-left space-x-2 focus:outline-none whitespace-nowrap flex items-center"
               >
                 <span className="inline-flex items-center justify-center w-6">
-                  <i className="fa fa-sign-out" aria-hidden="true"></i>
+                  <i className="fa fa-sign-out"></i>
                 </span>
                 <span className="text-2xl">{signoutTitle}</span>
               </button>

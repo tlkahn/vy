@@ -117,10 +117,7 @@ const ProfileModal = ({
                 }
                 className="text-white focus:outline-none"
               >
-                <i
-                  className={`fa fa-edit ${editingField ? 'hidden' : ''}`}
-                  aria-hidden="true"
-                ></i>
+                <i className={`fa fa-edit ${editingField ? 'hidden' : ''}`}></i>
               </button>
             </div>
           </div>

@@ -80,7 +80,7 @@ function MainComponent() {
                 onClick={handleSearchFocus}
                 className="text-2xl absolute left-0 top-1/2 transform -translate-y-1/2 focus:outline-none text-gray-500"
               >
-                <i className="fa fa-search" aria-hidden="true" />
+                <i className="fa fa-search" />
               </button>
               <input
                 type="text"
@@ -102,16 +102,16 @@ function MainComponent() {
                       className="scroll-btn scroll-back"
                       onClick={() => scrollBack(index)}
                     >
-                      <i className="fa fa-chevron-left" aria-hidden="true"></i>
+                      <i className="fa fa-chevron-left"></i>
                     </button>
                     <button
                       className="scroll-btn scroll-forward px-1"
                       onClick={() => scrollForward(index)}
                     >
-                      <i className="fa fa-chevron-right" aria-hidden="true"></i>
+                      <i className="fa fa-chevron-right"></i>
                     </button>
                     <button className="show-all-btn px-1">
-                      <i className="fa fa-th" aria-hidden="true"></i>
+                      <i className="fa fa-th"></i>
                     </button>
                   </div>
                 </div>
