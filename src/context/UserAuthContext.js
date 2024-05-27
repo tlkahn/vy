@@ -14,6 +14,11 @@ export const userAuthContext = createContext();
 export function UserAuthContextProvider({ children }) {
   const [user, setUser] = useState({});
 
+  useEffect(() => {
+    console.log('saving user: ', user);
+    localStorage.setItem('userJwt', JSON.stringify(user));
+  }, [user]);
+
   function logIn(email, password) {
     return signInWithEmailAndPassword(auth, email, password);
   }

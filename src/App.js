@@ -10,6 +10,7 @@ import CategoryComponent from './components/CategoryComponent';
 import { UserAuthContextProvider } from './context/UserAuthContext';
 import LiveRoom from './components/LiveRoom';
 import ProtectedRoute from './components/ProtectedRoute';
+import AudioPlayer from './components/AudioPlayer';
 
 function App() {
   const [message, setMessage] = useState('');
@@ -23,6 +24,7 @@ function App() {
   return (
     <BrowserRouter>
       <UserAuthContextProvider>
+        <AudioPlayer />
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />

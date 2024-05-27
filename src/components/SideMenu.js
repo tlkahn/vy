@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useUserAuth } from '../context/UserAuthContext';
 
 const logoUrl = 'http://localhost:3000/images/logo.svg';
 const profileTitle = 'Profile';
@@ -9,12 +10,22 @@ const SideMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [editingField, setEditingField] = useState(null);
+  const { logOut } = useUserAuth();
 
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const descriptionRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logOut();
+      navigate('/');
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const handleProfileButtonClick = () => {
     setIsProfileModalOpen(true);
@@ -34,7 +45,7 @@ const SideMenu = () => {
     }
   };
 
-  const handleEditButtonClick = (event, field, fieldValue) => {
+  const handleEditButtonClick = (field, fieldValue) => {
     setEditingField(field);
     const refLookup = {
       name: nameRef,
@@ -117,7 +128,7 @@ const SideMenu = () => {
             </li>
             <li key="sign-out" className="hover:bg-gray-800 rounded">
               <button
-                onClick={() => handleNavigation('/logout')}
+                onClick={handleLogout}
                 className="block w-full text-left space-x-2 focus:outline-none whitespace-nowrap flex items-center"
               >
                 <span className="inline-flex items-center justify-center w-6">
@@ -196,9 +207,8 @@ const SideMenu = () => {
                     Just another meditator
                   </div>
                   <button
-                    onClick={(event) =>
+                    onClick={() =>
                       handleEditButtonClick(
-                        event,
                         'description',
                         descriptionRef.current.textContent
                       )

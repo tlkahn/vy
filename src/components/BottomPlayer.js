@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import 'font-awesome/css/font-awesome.min.css';
+import AudioPlayer from './AudioPlayer';
 
 const BottomPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -8,11 +9,13 @@ const BottomPlayer = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [currentBgm, setCurrentBgm] = useState(null);
   const [audio, setAudio] = useState(null);
+  const audioPlayerRef = useRef(null);
 
   const togglePlayPause = () => {
-    if (audio) {
-      isPlaying ? audio.pause() : audio.play();
-    }
+    audio &&
+      (isPlaying
+        ? audioPlayerRef.current?.pauseAudio()
+        : audioPlayerRef.current?.playAudio());
     setIsPlaying(!isPlaying);
   };
 
@@ -77,6 +80,7 @@ const BottomPlayer = () => {
     <>
       <div className="fixed bottom-0 left-0 right-0 bg-gray-800 py-8 px-8 flex flex-col items-center justify-center">
         <div className="w-1/2 flex justify-between">
+          <AudioPlayer ref={audioPlayerRef} src={currentBgm?.url} />
           {currentBgm && (
             <button
               className="text-white flex flex-col items-center"
@@ -110,7 +114,9 @@ const BottomPlayer = () => {
         {currentBgm && (
           <div className="fixed w-full bottom-0 left-0 right-0 mt-20 text-center text-white bg-gray-700 bg-opacity-50">
             {isPlaying ? (
-              <span>Now Playing: {currentBgm.name}</span>
+              <span>
+                Now Playing: {currentBgm.name} from {currentBgm.url}
+              </span>
             ) : (
               <span>{currentBgm.name}</span>
             )}

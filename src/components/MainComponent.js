@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import 'font-awesome/css/font-awesome.min.css';
 import SideMenu from './SideMenu';
+import { useUserAuth } from '../context/UserAuthContext';
 
 const getGreetingMessage = () => {
   const currentHour = new Date().getHours();
@@ -15,32 +16,17 @@ const getGreetingMessage = () => {
 function MainComponent() {
   const [greetingMsg, setGreetingMsg] = useState('');
   const [tags, setTags] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [editingField, setEditingField] = useState(null);
+  const { user } = useUserAuth();
+  const [userJwt, setUserJwt] = useState({});
 
-  const navigate = useNavigate();
-
-  const handleNavigation = (path) => {
-    navigate(path);
-  };
-
-  const handleLogin = () => {
-    // Perform your login logic here, and then update the state:
-    setIsLoggedIn(true);
-  };
-
-  const handleLogout = () => {
-    // Perform your logout logic here, and then update the state:
-    setIsLoggedIn(false);
-  };
-
-  const updateGreetingMessage = () => {
+  useEffect(() => {
     const greeting = getGreetingMessage();
-    const personalizedGreeting = isLoggedIn
-      ? `${greeting}, ${userName}`
+    console.log(`greeting to ${userJwt ? userJwt.displayName : 'Guest'}`);
+    const personalizedGreeting = userJwt
+      ? `${greeting}, ${userJwt.displayName}`
       : greeting;
     setGreetingMsg(personalizedGreeting);
-  };
+  }, [userJwt]);
 
   const scrollContainerRefs = useRef(new Map());
   const listItemRefs = useRef(new Map());
@@ -71,11 +57,17 @@ function MainComponent() {
   const scrollForward = (tagId) => scroll(tagId, 1);
 
   useEffect(() => {
-    updateGreetingMessage();
-    // Fetch tags
     fetch('http://localhost:3000/api/tags')
       .then((response) => response.json())
       .then((data) => setTags(data));
+  }, []);
+
+  useEffect(() => {
+    let localUserJwt = JSON.parse(localStorage.getItem('userJwt'));
+    if (localUserJwt?.uid) {
+      console.log(`set up user jwt: ${localUserJwt}`);
+      setUserJwt(localUserJwt);
+    }
   }, []);
 
   return (
