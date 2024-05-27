@@ -14,7 +14,10 @@ function OnlinerList() {
   return (
     <ul className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-7 gap-4">
       {onliners.map((onliner) => (
-        <li key={onliner.id} className="flex flex-col items-center">
+        <li
+          key={onliner.id}
+          className="flex flex-col items-center cursor-pointer hover:bg-gray-600 p-2 rounded-lg"
+        >
           <Jdenticon size="48" value={onliner.alias} />
           <span className="text-sm">{onliner.alias}</span>
         </li>
