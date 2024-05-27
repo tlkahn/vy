@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import 'font-awesome/css/font-awesome.min.css';
 import AudioPlayer from './AudioPlayer';
+import QuestionForm from './QuestionForm';
 
 const BottomPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -49,13 +50,6 @@ const BottomPlayer = () => {
     setIsPopupVisible(false);
   };
 
-  const handleQuestionSubmit = (event) => {
-    event.preventDefault();
-    // Handle the question (e.g., send it to a backend or a chat service)
-    console.log(userQuestion); // Example action
-    setUserQuestion(''); // Reset input after submission
-  };
-
   const BgmPopup = () => (
     <>
       <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-50">
@@ -84,6 +78,18 @@ const BottomPlayer = () => {
       </div>
     </>
   );
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const toggleModal = () => setIsModalVisible(!isModalVisible);
+
+  const handleQuestionSubmit = (e) => {
+    e.preventDefault();
+    // Handle the question submission logic here
+    console.log(userQuestion);
+    setUserQuestion(''); // Reset the question input field
+    setIsModalVisible(false); // Optionally close the modal on submission
+  };
 
   return (
     <>
@@ -119,6 +125,13 @@ const BottomPlayer = () => {
             <i className="fa fa-ellipsis-h"></i>
             <span className="hidden sm:inline w-16 text-center">Choose</span>
           </button>
+          <button
+            className="text-white flex flex-col items-center"
+            onClick={toggleModal}
+          >
+            <i className="fa fa-question"></i>
+            <span className="hidden sm:inline w-16 text-center">Ask</span>
+          </button>
         </div>
         {currentBgm && (
           <div className="fixed w-full bottom-0 left-0 right-0 mt-20 text-center text-white bg-gray-700 bg-opacity-50">
@@ -132,6 +145,7 @@ const BottomPlayer = () => {
           </div>
         )}
         {isPopupVisible && <BgmPopup />}
+        {isModalVisible && <QuestionForm toggleModal={toggleModal} />}
       </div>
     </>
   );
