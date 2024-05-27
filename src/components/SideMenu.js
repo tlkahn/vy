@@ -12,11 +12,6 @@ const SideMenu = () => {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const { logOut } = useUserAuth();
 
-  const modalRef = useRef({
-    nameRef: useRef(null),
-    descriptionRef: useRef(null),
-  });
-
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -107,7 +102,6 @@ const SideMenu = () => {
       <ProfileModal
         isProfileModalOpen={isProfileModalOpen}
         setIsProfileModalOpen={setIsProfileModalOpen}
-        ref={modalRef}
       />
     </>
   );
