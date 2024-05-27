@@ -30,6 +30,15 @@ function OnlinerList() {
           >
             <Jdenticon size="48" value={onliner.alias} />
             <span className="text-sm">{onliner.alias}</span>
+            <i
+              className={`text-sm ${
+                onliner.device === 'iphone'
+                  ? 'fa fa-apple'
+                  : onliner.device === 'android'
+                  ? 'fa fa-android'
+                  : 'fa fa-globe'
+              }`}
+            ></i>
           </li>
         ))}
       </ul>

@@ -78,7 +78,7 @@ const BottomPlayer = () => {
 
   return (
     <>
-      <div className="fixed bottom-0 left-0 right-0 bg-gray-800 py-8 px-8 flex flex-col items-center justify-center">
+      <div className="fixed bottom-0 left-0 right-0 bg-gray-800 py-8 px-8 flex flex-col items-center justify-center select-none">
         <div className="w-1/2 flex justify-between">
           <AudioPlayer ref={audioPlayerRef} src={currentBgm?.url} />
           {currentBgm && (

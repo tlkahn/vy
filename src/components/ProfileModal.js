@@ -80,7 +80,10 @@ const ProfileModal = ({
       <div className="fixed inset-0 z-50 bg-black bg-opacity-50"></div>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div className="lg:w-1/4 md:w-1/3 sm:w-1/2 bg-gray-900 bg-opacity-90 rounded-lg shadow-lg p-6 w-full max-w-md rounded-md">
-          <div className="user-modal-header flex items-center justify-end mb-4">
+          <div className="user-modal-header flex items-center justify-between text-white p-4 rounded-t-lg">
+            <div className="flex justify-between items-center">
+              <div ref={nameRef}></div>
+            </div>
             <button
               className="text-right focus:outline-none"
               onClick={() => setIsProfileModalOpen(false)}
@@ -88,33 +91,9 @@ const ProfileModal = ({
               X
             </button>
           </div>
-          <div className="space-y-4">
-            {/* Profile Name Section */}
-            <div className="flex justify-between items-center">
-              <div
-                ref={nameRef}
-                contentEditable={editingField === 'name'}
-                suppressContentEditableWarning
-                onKeyDown={(e) => handleKeyDown(e, 'name')}
-                onBlur={(e) => handleFieldSubmit('name', e.target.textContent)}
-                className={`font-semibold ${
-                  editingField === 'name' ? 'bg-yellow-100 text-gray-700' : ''
-                }`}
-              ></div>
-              <button
-                onClick={() =>
-                  handleEditButtonClick('name', nameRef.current.textContent)
-                }
-                className="text-white focus:outline-none"
-              >
-                <i
-                  className={`fa fa-edit ${editingField ? 'hidden' : ''}`}
-                  aria-hidden="true"
-                ></i>
-              </button>
-            </div>
+          <div className="user-modal-content p-4 shadow-md">
             {/* Description Section */}
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between">
               <div
                 ref={descriptionRef}
                 contentEditable={editingField === 'description'}
