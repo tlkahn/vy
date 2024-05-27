@@ -16,8 +16,7 @@ const getGreetingMessage = () => {
 function MainComponent() {
   const [greetingMsg, setGreetingMsg] = useState('');
   const [tags, setTags] = useState([]);
-  const { user } = useUserAuth();
-  const [userJwt, setUserJwt] = useState({});
+  const [userJwt, setUserJwt] = useState(null);
 
   useEffect(() => {
     const greeting = getGreetingMessage();
