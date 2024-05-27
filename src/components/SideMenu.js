@@ -70,6 +70,18 @@ const SideMenu = () => {
     console.log('editingField:', editingField);
   }, [editingField]);
 
+  useEffect(() => {
+    const closeOnEsc = (event) => {
+      if (event.key === 'Escape') {
+        setIsProfileModalOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', closeOnEsc);
+
+    return () => document.removeEventListener('keydown', closeOnEsc);
+  }, []);
+
   return (
     <>
       <aside className="flex flex-col w-full md:w-1/4 lg:w-1/7 pt-4 pl-4 pr-4">

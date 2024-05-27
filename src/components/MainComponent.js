@@ -79,7 +79,7 @@ function MainComponent() {
             <div className="relative flex-grow flex items-center">
               <button
                 onClick={handleSearchFocus}
-                className="absolute left-0 top-1/2 transform -translate-y-1/2 focus:outline-none text-gray-500"
+                className="text-2xl absolute left-0 top-1/2 transform -translate-y-1/2 focus:outline-none text-gray-500"
               >
                 <i className="fa fa-search" aria-hidden="true" />
               </button>
@@ -87,7 +87,7 @@ function MainComponent() {
                 type="text"
                 ref={searchInputRef}
                 placeholder={greetingMsg}
-                className="text-3xl font-bold border-0 focus:ring-0 focus:outline-none bg-transparent w-full pl-8"
+                className="text-2xl font-bold border-0 focus:ring-0 focus:outline-none bg-transparent w-full pl-8"
               />
             </div>
           </div>
