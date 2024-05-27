@@ -174,12 +174,8 @@ const SideMenu = () => {
                     John Doe
                   </div>
                   <button
-                    onClick={(event) =>
-                      handleEditButtonClick(
-                        event,
-                        'name',
-                        nameRef.current.textContent
-                      )
+                    onClick={() =>
+                      handleEditButtonClick('name', nameRef.current.textContent)
                     }
                     className="text-white focus:outline-none"
                   >

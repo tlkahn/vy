@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './components/Login';
 import Signup from './components/Signup';
-import Profile from './components/Profile';
 import MainComponent from './components/MainComponent';
 import SequenceComponent from './components/SequenceComponent';
 import CategoryComponent from './components/CategoryComponent';
@@ -31,7 +30,6 @@ function App() {
           {/* Below are protected domains */}
           <Route path="*" element={<ProtectedRoute />}>
             <Route path="home" element={<MainComponent />} />
-            <Route path="profile" element={<Profile />} />
             <Route path="liveroom" element={<LiveRoom />} />
             <Route path="sequence/:id" element={<SequenceComponent />} />
             <Route path="category/:id" element={<CategoryComponent />} />
