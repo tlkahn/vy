@@ -122,6 +122,7 @@ const SideMenu = () => {
                 <span className="text-2xl">Now</span>
               </Link>
             </li>
+            <hr class="my-2 border-gray-500" />
             <li
               key="profile"
               className={`hover:bg-gray-800 rounded ${
@@ -157,9 +158,8 @@ const SideMenu = () => {
         <>
           <div className="fixed inset-0 z-50 bg-black bg-opacity-50"></div>
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <div className="bg-gray-900 bg-opacity-90 rounded-lg shadow-lg p-6 w-full max-w-md rounded-md">
-              <div className="user-modal-header flex justify-between items-center mb-4">
-                <h2 className="text-2xl">Profile</h2>
+            <div className="lg:w-1/4 md:w-1/3 sm:w-1/2 bg-gray-900 bg-opacity-90 rounded-lg shadow-lg p-6 w-full max-w-md rounded-md">
+              <div className="user-modal-header flex items-center justify-end mb-4">
                 <button
                   className="text-right focus:outline-none"
                   onClick={() => setIsProfileModalOpen(false)}
