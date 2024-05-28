@@ -111,17 +111,18 @@ const BottomPlayer = () => {
       <div className="fixed bottom-0 left-0 right-0 bg-gray-800 py-8 px-8 flex flex-col items-center justify-center select-none">
         <div className="w-1/2 flex justify-between">
           <AudioPlayer ref={audioPlayerRef} src={currentBgm?.url} />
-          {currentBgm && (
-            <button
-              className="text-white flex flex-col items-center"
-              onClick={togglePlayPause}
-            >
-              <i className={isPlaying ? 'fa fa-pause' : 'fa fa-play'}></i>
-              <span className="hidden sm:inline w-16 text-center">
-                {isPlaying ? 'Pause' : 'Play'}
-              </span>
-            </button>
-          )}
+          <button
+            className={`flex flex-col items-center ${
+              currentBgm ? 'text-white' : 'text-gray-400'
+            }`}
+            onClick={togglePlayPause}
+            disabled={!currentBgm}
+          >
+            <i className={isPlaying ? 'fa fa-pause' : 'fa fa-play'}></i>
+            <span className="hidden sm:inline w-16 text-center">
+              {isPlaying ? 'Pause' : 'Play'}
+            </span>
+          </button>
           <button
             className="text-white flex flex-col items-center"
             onClick={toggleRecord}

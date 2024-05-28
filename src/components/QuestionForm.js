@@ -17,14 +17,17 @@ const QuestionForm = ({ toggleModal }) => {
     <>
       <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
         <div className="bg-gray-700 p-5 rounded-lg">
-          <div className="bg-gray-600 p-4 mb-4 rounded overflow-auto max-h-40">
+          <div className="question-history bg-gray-600 p-4 mb-4 rounded overflow-auto max-h-40">
             {questionHistory.map((question, index) => (
               <div key={index} className="text-white mb-2 last:mb-0">
                 {question}
               </div>
             ))}
           </div>
-          <form onSubmit={handleQuestionSubmit} className="my-4 flex">
+          <form
+            onSubmit={handleQuestionSubmit}
+            className="question-form my-4 flex"
+          >
             <input
               type="text"
               value={userQuestion}
