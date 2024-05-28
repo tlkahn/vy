@@ -56,9 +56,12 @@ const SideMenu = () => {
                 <span className="text-2xl">Meditate</span>
               </Link>
             </li>
+
             <li
               className={`hover:bg-gray-800 rounded ${
-                /^\/liveroom\/\d+$/.test(location.pathname) ? 'bg-gray-900' : ''
+                /^\/liverooms?\/?\d*$/.test(location.pathname)
+                  ? 'bg-gray-900'
+                  : ''
               }`}
             >
               <Link to="/liverooms" className="flex items-center space-x-2">
