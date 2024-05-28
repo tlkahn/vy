@@ -50,34 +50,45 @@ const BottomPlayer = () => {
     setIsPopupVisible(false);
   };
 
-  const BgmPopup = () => (
-    <>
-      <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-50">
-        <div className="bg-gray-700 text-white w-1/2 p-6 rounded-md">
-          <div className="flex justify-between items-center border-b-2 border-gray-200 pb-2 mb-4">
-            <h2>Select Background Music</h2>
-            <button
-              className="text-white hover:text-black"
-              onClick={handleChoose}
-            >
-              <i className="fa fa-times"></i>
-            </button>
-          </div>
-          <ul className="divide-y divide-gray-200">
-            {bgms.map((bgm) => (
-              <li
-                key={bgm.id}
-                className="py-2 cursor-pointer hover:bg-gray-800"
-                onClick={() => handleBgmSelection(bgm)}
+  const BgmPopup = () => {
+    useEffect(() => {
+      const closeOnEsc = (event) => {
+        if (event.key === 'Escape') {
+          setIsPopupVisible(false);
+        }
+      };
+      document.addEventListener('keydown', closeOnEsc);
+      return () => document.removeEventListener('keydown', closeOnEsc);
+    }, []);
+    return (
+      <>
+        <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-50">
+          <div className="bg-gray-700 text-white w-1/2 p-6 rounded-md">
+            <div className="flex justify-between items-center border-b-2 border-gray-200 pb-2 mb-4">
+              <h2>Select Background Music</h2>
+              <button
+                className="text-white hover:text-black"
+                onClick={handleChoose}
               >
-                {bgm.name}
-              </li>
-            ))}
-          </ul>
+                <i className="fa fa-times"></i>
+              </button>
+            </div>
+            <ul className="divide-y divide-gray-200">
+              {bgms.map((bgm) => (
+                <li
+                  key={bgm.id}
+                  className="py-2 cursor-pointer hover:bg-gray-800"
+                  onClick={() => handleBgmSelection(bgm)}
+                >
+                  {bgm.name}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  };
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
