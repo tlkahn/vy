@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useQuestionHistory } from '../context/QuestionHistoryContext'; // Adjust the path as needed
+import PropTypes from 'prop-types';
 
 const QuestionForm = ({ toggleModal }) => {
   const [userQuestion, setUserQuestion] = useState('');
@@ -42,6 +43,10 @@ const QuestionForm = ({ toggleModal }) => {
       </div>
     </>
   );
+};
+
+QuestionForm.propTypes = {
+  toggleModal: PropTypes.func.isRequired, // Validate src prop
 };
 
 export default QuestionForm;

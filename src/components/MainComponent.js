@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import 'font-awesome/css/font-awesome.min.css';
 import SideMenu from './SideMenu';
-import { useUserAuth } from '../context/UserAuthContext';
 
 const getGreetingMessage = () => {
   const currentHour = new Date().getHours();

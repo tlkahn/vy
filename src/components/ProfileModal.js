@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 
 const ProfileModal = ({
   isProfileModalOpen,
@@ -32,14 +33,14 @@ const ProfileModal = ({
     setEditingField(null); // Reset the editing field state
   };
 
-  const handleKeyDown = (event, field) => {
+  const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault();
       setEditingField(null);
     }
   };
 
-  const handleEditButtonClick = (field, fieldValue) => {
+  const handleEditButtonClick = (field) => {
     setEditingField(field);
     const refLookup = {
       name: nameRef,
@@ -98,7 +99,7 @@ const ProfileModal = ({
                 ref={descriptionRef}
                 contentEditable={editingField === 'description'}
                 suppressContentEditableWarning
-                onKeyDown={(e) => handleKeyDown(e, 'description')}
+                onKeyDown={(e) => handleKeyDown(e)}
                 onBlur={(e) =>
                   handleFieldSubmit('description', e.target.textContent)
                 }
@@ -109,12 +110,7 @@ const ProfileModal = ({
                 }`}
               ></div>
               <button
-                onClick={() =>
-                  handleEditButtonClick(
-                    'description',
-                    descriptionRef.current.textContent
-                  )
-                }
+                onClick={() => handleEditButtonClick('description')}
                 className="text-white focus:outline-none"
               >
                 <i className={`fa fa-edit ${editingField ? 'hidden' : ''}`}></i>
@@ -125,6 +121,12 @@ const ProfileModal = ({
       </div>
     </>
   );
+};
+
+ProfileModal.propTypes = {
+  isProfileModalOpen: PropTypes.bool.isRequired,
+  setIsProfileModalOpen: PropTypes.func.isRequired,
+  userId: PropTypes.string.isRequired, // Adjust the type based on actual usage, e.g., PropTypes.number if userId is a number
 };
 
 export default ProfileModal;

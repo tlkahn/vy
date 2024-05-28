@@ -95,14 +95,6 @@ const BottomPlayer = () => {
     return () => document.removeEventListener('keydown', closeOnEsc);
   }, []);
 
-  const handleQuestionSubmit = (e) => {
-    e.preventDefault();
-    // Handle the question submission logic here
-    console.log(userQuestion);
-    setUserQuestion(''); // Reset the question input field
-    setIsModalVisible(false); // Optionally close the modal on submission
-  };
-
   return (
     <>
       <div className="fixed bottom-0 left-0 right-0 bg-gray-800 py-8 px-8 flex flex-col items-center justify-center select-none">

@@ -1,9 +1,5 @@
-import React, {
-  useEffect,
-  useRef,
-  useImperativeHandle,
-  forwardRef,
-} from 'react';
+import React, { useRef, useImperativeHandle, forwardRef } from 'react';
+import PropTypes from 'prop-types';
 
 const AudioPlayer = ({ src }, ref) => {
   const audioRef = useRef(null);
@@ -26,6 +22,10 @@ const AudioPlayer = ({ src }, ref) => {
       <audio ref={audioRef} src={src} loop />
     </>
   );
+};
+
+AudioPlayer.propTypes = {
+  src: PropTypes.string.isRequired, // Validate src prop
 };
 
 export default forwardRef(AudioPlayer);
