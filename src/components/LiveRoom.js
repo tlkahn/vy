@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   VERSION,
   createClient,
@@ -11,6 +11,7 @@ import {
 import BottomPlayer from './BottomPlayer';
 import OnlinerList from './OnlinerList';
 import SideMenu from './SideMenu';
+import { useParams } from 'react-router-dom';
 
 console.log('Current SDK VERSION: ', VERSION);
 
@@ -35,6 +36,11 @@ function LiveRoom() {
   const [isVideoPubed, setIsVideoPubed] = useState(false);
   const [isVideoSubed, setIsVideoSubed] = useState(false);
   const [isJoined, setIsJoined] = useState(false);
+  const { id } = useParams();
+
+  useEffect(() => {
+    console.log(`room id: ${id}`);
+  }, []);
 
   const turnOnCamera = async (flag) => {
     flag = flag ?? !isVideoOn;
