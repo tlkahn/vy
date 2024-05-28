@@ -85,12 +85,6 @@ const ProfileModal = ({
             <div className="flex justify-between items-center">
               <div ref={nameRef}></div>
             </div>
-            <button
-              className="text-right focus:outline-none"
-              onClick={() => setIsProfileModalOpen(false)}
-            >
-              X
-            </button>
           </div>
           <div className="user-modal-content p-4 shadow-md">
             {/* Description Section */}
@@ -117,6 +111,14 @@ const ProfileModal = ({
               </button>
             </div>
           </div>
+          <button
+            onClick={() => {
+              setIsProfileModalOpen(false);
+            }}
+            className="text-white absolute top-0 right-0 p-4 z-100"
+          >
+            <i className="fa fa-times"></i>
+          </button>
         </div>
       </div>
     </>

@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useQuestionHistory } from '../context/QuestionHistoryContext'; // Adjust the path as needed
 import PropTypes from 'prop-types';
 
 const QuestionForm = ({ toggleModal }) => {
   const [userQuestion, setUserQuestion] = useState('');
+  const modalRef = useRef(); // Ref for the modal container
+  const containerRef = useRef(); // Ref for the modal container
 
   const handleQuestionSubmit = (e) => {
     e.preventDefault();
@@ -13,10 +15,29 @@ const QuestionForm = ({ toggleModal }) => {
 
   const { questionHistory, setQuestionHistory } = useQuestionHistory();
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !containerRef.current.contains(event.target)) {
+        toggleModal(false); // Assuming toggleModal can accept a boolean to show/hide
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [toggleModal]); // Add toggleModal to the dependencies array if it changes
+
   return (
     <>
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-        <div className="bg-gray-700 p-5 rounded-lg">
+      <div
+        ref={modalRef}
+        className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+      >
+        <div
+          ref={containerRef}
+          className="bg-gray-700 p-5 rounded-lg question-form-container"
+        >
           <div className="question-history bg-gray-600 p-4 mb-4 rounded overflow-auto max-h-40">
             {questionHistory.map((question, index) => (
               <div key={index} className="text-white mb-2 last:mb-0">
@@ -26,7 +47,7 @@ const QuestionForm = ({ toggleModal }) => {
           </div>
           <form
             onSubmit={handleQuestionSubmit}
-            className="question-form my-4 flex"
+            className="question-form-input my-4 flex"
           >
             <input
               type="text"
@@ -39,10 +60,10 @@ const QuestionForm = ({ toggleModal }) => {
               <i className="fa fa-paper-plane"></i>
             </button>
           </form>
-          <button onClick={toggleModal} className="absolute top-0 right-0 p-4">
-            <i className="fa fa-times"></i>
-          </button>
         </div>
+        <button onClick={toggleModal} className="absolute top-0 right-0 p-4">
+          <i className="fa fa-times"></i>
+        </button>
       </div>
     </>
   );
