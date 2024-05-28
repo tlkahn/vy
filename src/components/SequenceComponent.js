@@ -13,7 +13,9 @@ const SequenceComponent = () => {
 
   useEffect(() => {
     if (currentSession && currentSession.url) {
-      audioRef.current.src = currentSession.url;
+      if (audioRef.current.src != currentSession.url) {
+        audioRef.current.src = currentSession.url;
+      }
       if (isPlaying) {
         audioRef.current.play();
       }
