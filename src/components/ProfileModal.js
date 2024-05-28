@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useReducer } from 'react';
 import PropTypes from 'prop-types';
 
 const ProfileModal = ({
@@ -12,6 +12,21 @@ const ProfileModal = ({
 
   const nameRef = useRef(null);
   const descriptionRef = useRef(null);
+  const modalRef = useRef(null);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !containerRef.current.contains(event.target)) {
+        setIsProfileModalOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isProfileModalOpen]); // Add toggleModal to the dependencies array if it changes
 
   useEffect(() => {
     if (userId) {
@@ -78,9 +93,15 @@ const ProfileModal = ({
 
   return (
     <>
-      <div className="fixed inset-0 z-50 bg-black bg-opacity-50"></div>
+      <div
+        ref={modalRef}
+        className="fixed inset-0 z-50 bg-black bg-opacity-50"
+      ></div>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div className="lg:w-1/4 md:w-1/3 sm:w-1/2 bg-gray-900 bg-opacity-90 rounded-lg shadow-lg p-6 w-full max-w-md rounded-md">
+        <div
+          ref={containerRef}
+          className="lg:w-1/4 md:w-1/3 sm:w-1/2 bg-gray-900 bg-opacity-90 rounded-lg shadow-lg p-6 w-full max-w-md rounded-md"
+        >
           <div className="user-modal-header flex items-center justify-between text-white p-4 rounded-t-lg">
             <div className="flex justify-between items-center">
               <div ref={nameRef}></div>
