@@ -28,6 +28,11 @@ const SideMenu = () => {
     setIsProfileModalOpen(true);
   };
 
+  const handleMakeroomButtonClick = () => {
+    console.log('making room...');
+    navigate('/liveroom/1');
+  };
+
   return (
     <>
       <aside className="flex flex-col w-full md:w-1/4 lg:w-1/7 pt-4 pl-4 pr-4">
@@ -86,6 +91,17 @@ const SideMenu = () => {
                   <i className="fa fa-user"></i>
                 </span>
                 <span className="text-2xl">{profileTitle}</span>
+              </button>
+            </li>
+            <li key="makeroom" className="hover:bg-gray-800 rounded">
+              <button
+                onClick={handleMakeroomButtonClick}
+                className="block w-full text-left space-x-2 focus:outline-none whitespace-nowrap flex items-center"
+              >
+                <span className="inline-flex items-center justify-center w-6">
+                  <i className="fa fa-home"></i>
+                </span>
+                <span className="text-2xl">New Room</span>
               </button>
             </li>
             <li key="sign-out" className="hover:bg-gray-800 rounded">
