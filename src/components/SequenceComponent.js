@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
+import AudioPlayer from './AudioPlayer';
 import { useParams } from 'react-router-dom';
 import SideMenu from './SideMenu';
 
@@ -8,25 +9,36 @@ const SequenceComponent = () => {
   const [isFavoredList, setIsFavoredList] = useState([]);
   const [sessions, setSessions] = useState([]);
   const [currentSession, setCurrentSession] = useState(null);
-  const audioRef = useRef(new Audio());
+  const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
+  /**
+   * - If `currentSession` changes (e.g., a new session is selected),
+   *  - the effect will run, updating the `src` of the audio element
+   *  - and playing the audio if `isPlaying` is `true`.  If
+   *  - `isPlaying` changes (e.g., toggling between play and pause),
+   *  - the effect will run, playing or pausing the audio depending on
+   *  - the new value of `isPlaying`.  If none of the dependencies
+   *  - change, the effect will not run again.
+   */
   useEffect(() => {
-    if (currentSession && currentSession.url) {
-      if (audioRef.current.src != currentSession.url) {
-        audioRef.current.src = currentSession.url;
-      }
-      if (isPlaying) {
-        audioRef.current.play();
+    if (audioRef) {
+      if (currentSession && currentSession.url) {
+        if (audioRef.current.src != currentSession.url) {
+          audioRef.current.src = currentSession.url;
+        }
+        if (isPlaying) {
+          audioRef.current.playAudio();
+        }
       }
     }
   }, [currentSession, isPlaying]);
 
   const togglePlay = () => {
     if (isPlaying) {
-      audioRef.current.pause();
+      audioRef.current.pauseAudio();
     } else {
-      audioRef.current.play();
+      audioRef.current.playAudio();
     }
     setIsPlaying(!isPlaying);
   };
@@ -54,6 +66,7 @@ const SequenceComponent = () => {
   return (
     <>
       <div className="scene-video-background bg-gray-700 text-white min-h-screen">
+        <AudioPlayer ref={audioRef} src={currentSession?.url} />
         <div className="main container mx-auto px-4 py-8 flex flex-col md:flex-row h-full">
           <SideMenu />
           <main
@@ -134,6 +147,18 @@ const SequenceComponent = () => {
                 )}
               </button>
             </div>
+            {currentSession && (
+              <div className="fixed w-full bottom-0 left-0 right-0 mt-20 text-center text-white bg-gray-700 bg-opacity-50">
+                {isPlaying ? (
+                  <span>
+                    Now Playing: {currentSession.title} from{' '}
+                    {currentSession.url}
+                  </span>
+                ) : (
+                  <span>{currentSession.title}</span>
+                )}
+              </div>
+            )}
           </main>
         </div>
       </div>
