@@ -53,8 +53,10 @@ const BottomPlayer = () => {
   };
 
   const handleDismiss = () => {
-    // Handle dismissing the room
-    navigate('/liverooms');
+    if (window.confirm('Are you sure you want to leave the room?')) {
+      // Handle dismissing the room
+      navigate('/liverooms');
+    }
   };
 
   const BgmPopup = () => {
