@@ -150,7 +150,7 @@ const BottomPlayer = () => {
           </button>
         </div>
         {currentBgm && (
-          <div className="fixed w-full bottom-0 left-0 right-0 mt-20 text-center text-white bg-gray-700 bg-opacity-50">
+          <div className="fixed w-full bottom-0 left-0 right-0 mt-20 text-center text-white bg-gray-700 bg-opacity-50 line-clamp-1">
             {isPlaying ? (
               <span>
                 Now Playing: {currentBgm.name} from {currentBgm.url}
