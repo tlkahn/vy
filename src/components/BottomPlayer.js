@@ -148,6 +148,10 @@ const BottomPlayer = () => {
             <i className="fa fa-question"></i>
             <span className="hidden sm:inline w-16 text-center">Ask</span>
           </button>
+          <button className="text-white flex flex-col items-center">
+            <i className="fa fa-times-circle"></i>
+            <span className="hidden sm:inline w-16 text-center">Dismiss</span>
+          </button>
         </div>
         {currentBgm && (
           <div className="fixed w-full bottom-0 left-0 right-0 mt-20 text-center text-white bg-gray-700 bg-opacity-50 line-clamp-1">
