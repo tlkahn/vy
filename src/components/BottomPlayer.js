@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import 'font-awesome/css/font-awesome.min.css';
 import AudioPlayer from './AudioPlayer';
 import QuestionForm from './QuestionForm';
@@ -11,6 +12,7 @@ const BottomPlayer = () => {
   const [currentBgm, setCurrentBgm] = useState(null);
   const [audio, setAudio] = useState(null);
   const audioPlayerRef = useRef(null);
+  const navigate = useNavigate();
 
   const togglePlayPause = () => {
     audio &&
@@ -48,6 +50,11 @@ const BottomPlayer = () => {
     // Handle the selected background music
     setCurrentBgm(bgm);
     setIsPopupVisible(false);
+  };
+
+  const handleDismiss = () => {
+    // Handle dismissing the room
+    navigate('/liverooms');
   };
 
   const BgmPopup = () => {
@@ -148,7 +155,10 @@ const BottomPlayer = () => {
             <i className="fa fa-question"></i>
             <span className="hidden sm:inline w-16 text-center">Ask</span>
           </button>
-          <button className="text-white flex flex-col items-center">
+          <button
+            className="text-white flex flex-col items-center"
+            onClick={handleDismiss}
+          >
             <i className="fa fa-times-circle"></i>
             <span className="hidden sm:inline w-16 text-center">Dismiss</span>
           </button>
