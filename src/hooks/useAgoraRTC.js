@@ -1,48 +1,48 @@
 import { useState, useEffect } from 'react';
 import AgoraRTC from 'agora-rtc-sdk-ng';
 import useToken from './useToken';
+import { AGORA_APP_ID, AGORA_TOKEN_URL } from '../agora';
 
-const useAgoraRTC = (roomId) => {
+const useAgoraRTC = (roomId, rtcUid) => {
   const [rtcClient, setRtcClient] = useState(null);
   const [audioTracks, setAudioTracks] = useState({
     localAudioTrack: null,
     remoteAudioTracks: {},
   });
+  const token = useToken(AGORA_TOKEN_URL, roomId, rtcUid);
 
-  useEffect(() => {
-    const token = useToken(process.env.REACT_APP_TOKEN_URL);
-    const rtcUid = Math.floor(Math.random() * 2032);
+  const killRtc = async () => {
+    if (rtcClient) {
+      audioTracks.localAudioTrack.stop();
+      audioTracks.localAudioTrack.close();
+      rtcClient.unpublish();
+      rtcClient.leave();
+    }
+  };
 
-    const initRtc = async () => {
-      const client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
+  const initRtc = async () => {
+    const client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
 
-      client.on('user-joined', handleUserJoined);
-      client.on('user-published', handleUserPublished);
-      client.on('user-left', handleUserLeft);
+    client.on('user-joined', handleUserJoined);
+    client.on('user-published', handleUserPublished);
+    client.on('user-left', handleUserLeft);
 
-      await client.join(process.env.AGORA_APP_ID, roomId, token, rtcUid);
+    if (token) {
+      await client.join(AGORA_APP_ID, roomId, token, rtcUid);
       const localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
       await client.publish(localAudioTrack);
 
       setRtcClient(client);
       setAudioTracks((tracks) => ({ ...tracks, localAudioTrack }));
-    };
+    }
+  };
 
-    const killRtc = async () => {
-      if (rtcClient) {
-        audioTracks.localAudioTrack.stop();
-        audioTracks.localAudioTrack.close();
-        rtcClient.unpublish();
-        rtcClient.leave();
-      }
-    };
-
+  useEffect(() => {
     initRtc();
-
     return () => {
       killRtc();
     };
-  }, []);
+  }, [token]);
 
   const handleUserJoined = async (user) => {
     console.log('USER:', user);
@@ -70,6 +70,7 @@ const useAgoraRTC = (roomId) => {
   return {
     rtcClient,
     audioTracks,
+    killRtc,
   };
 };
 

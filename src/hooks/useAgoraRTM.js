@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react';
 import AgoraRTM from 'agora-rtm-sdk';
 import useToken from './useToken';
+import { AGORA_APP_ID, AGORA_TOKEN_URL } from '../agora';
 
 const useAgoraRTM = (roomId, name) => {
   const [rtmClient, setRtmClient] = useState(null);
   const [channel, setChannel] = useState(null);
   const [avatar, _] = useState(null);
-  const token = useToken(process.env.AGORA_TOKEN_URL);
   const rtmUid = String(Math.floor(Math.random() * 2032));
+  const token = useToken(AGORA_TOKEN_URL, roomId, rtmUid);
 
   useEffect(() => {
     const initRtm = async () => {
-      const client = AgoraRTM.createInstance(process.env.AGORA_APP_ID);
+      const client = AgoraRTM.createInstance(AGORA_APP_ID);
       await client.login({ uid: rtmUid, token: token });
 
       const ch = client.createChannel(roomId);
