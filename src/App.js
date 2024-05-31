@@ -32,7 +32,7 @@ function App() {
             <Route path="*" element={<ProtectedRoute />}>
               <Route path="liverooms" element={<LiveRooms />} />
               <Route path="home" element={<MainComponent />} />
-              <Route path="liveroom/:id" element={<LiveRoom />} />
+              <Route path="liveroom/:roomId" element={<LiveRoom />} />
               <Route path="sequence/:id" element={<SequenceComponent />} />
               <Route path="category/:id" element={<CategoryComponent />} />
             </Route>

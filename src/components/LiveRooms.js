@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SideMenu from './SideMenu';
-import useAgoraRTC from '../hooks/useAgoraRTC';
 
 const LiveRooms = () => {
   const [rooms, setRooms] = useState([]);
@@ -32,16 +31,6 @@ const LiveRooms = () => {
       setRooms(await response.json());
     })();
   }, []);
-
-  const roomId = 'main';
-  const rtcUid = 123;
-  const { killRtc } = useAgoraRTC(roomId, rtcUid);
-
-  useEffect(() => {
-    return () => {
-      killRtc();
-    };
-  }, [killRtc]);
 
   return (
     <>

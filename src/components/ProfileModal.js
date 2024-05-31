@@ -149,7 +149,7 @@ const ProfileModal = ({
 ProfileModal.propTypes = {
   isProfileModalOpen: PropTypes.bool.isRequired,
   setIsProfileModalOpen: PropTypes.func.isRequired,
-  userId: PropTypes.string.isRequired, // Adjust the type based on actual usage, e.g., PropTypes.number if userId is a number
+  userId: PropTypes.string, // Adjust the type based on actual usage, e.g., PropTypes.number if userId is a number
 };
 
 export default ProfileModal;

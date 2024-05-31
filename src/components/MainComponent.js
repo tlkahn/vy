@@ -19,7 +19,6 @@ function MainComponent() {
 
   useEffect(() => {
     const greeting = getGreetingMessage();
-    console.log(`greeting to ${userJwt ? userJwt.displayName : 'Guest'}`);
     const personalizedGreeting = userJwt
       ? `${greeting}, ${userJwt.displayName}`
       : greeting;
@@ -63,7 +62,6 @@ function MainComponent() {
   useEffect(() => {
     let localUserJwt = JSON.parse(localStorage.getItem('userJwt'));
     if (localUserJwt?.uid) {
-      console.log(`set up user jwt: ${localUserJwt}`);
       setUserJwt(localUserJwt);
     }
   }, []);

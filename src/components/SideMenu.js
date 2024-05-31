@@ -33,6 +33,10 @@ const SideMenu = () => {
     navigate('/liveroom/1');
   };
 
+  if (user === null) {
+    return <p>Loading...</p>; // Show a loading indicator or any other placeholder while waiting for the user data
+  }
+
   return (
     <>
       <aside className="flex flex-col w-full md:w-1/4 lg:w-1/7 pt-4 pl-4 pr-4">

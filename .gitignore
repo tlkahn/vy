@@ -3,4 +3,4 @@ node_modules
 dist
 firebase.js
 .env
-src/appid.js
+src/agora.js
