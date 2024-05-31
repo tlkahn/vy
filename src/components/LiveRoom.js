@@ -1,14 +1,42 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import BottomPlayer from './BottomPlayer';
 import OnlinerList from './OnlinerList';
 import SideMenu from './SideMenu';
 import { useParams } from 'react-router-dom';
 import useAgoraRTC from '../hooks/useAgoraRTC';
+import log from 'loglevel';
+import { useUserAuth } from '../context/UserAuthContext';
+
+async function hashString(str) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(str);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint32Array(hashBuffer));
+
+  // Convert the hash to an unsigned integer by taking the first 32-bit value
+  return hashArray[0];
+}
 
 function LiveRoom() {
+  if (process.env.NODE_ENV === 'development') {
+    log.setLevel('info');
+  }
+
   const { roomId } = useParams();
-  const rtcUid = 123;
-  const { killRtc } = useAgoraRTC(roomId, rtcUid);
+  const { user } = useUserAuth();
+  const prevUidRef = useRef(null);
+  const [uidInt, setUidInt] = useState(null);
+  const { killRtc } = useAgoraRTC(roomId, uidInt);
+
+  useEffect(() => {
+    async function updateUidInt() {
+      if (prevUidRef.current) {
+        const hashedUid = await hashString(prevUidRef.current);
+        setUidInt(hashedUid);
+      }
+    }
+    updateUidInt();
+  }, [prevUidRef.current]);
 
   useEffect(() => {
     return () => {
@@ -17,7 +45,14 @@ function LiveRoom() {
   }, [killRtc]);
 
   useEffect(() => {
-    console.log(`room id: ${roomId}`);
+    if (user && user.uid && user.uid !== prevUidRef.current) {
+      log.info(`VY [INFO]: uid: ${JSON.stringify(user.uid)}`);
+      prevUidRef.current = user.uid;
+    }
+  }, [user]);
+
+  useEffect(() => {
+    log.info(`VY [INFO]: room id: ${roomId}`);
   }, [roomId]);
 
   return (

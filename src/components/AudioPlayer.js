@@ -27,7 +27,7 @@ const AudioPlayer = forwardRef(({ src }, ref) => {
 AudioPlayer.displayName = 'AudioPlayer';
 
 AudioPlayer.propTypes = {
-  src: PropTypes.string.isRequired, // Validate src prop
+  src: PropTypes.string, // Validate src prop
 };
 
 export default AudioPlayer;

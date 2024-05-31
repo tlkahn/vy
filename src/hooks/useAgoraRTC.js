@@ -28,6 +28,7 @@ const useAgoraRTC = (roomId, rtcUid) => {
     client.on('user-left', handleUserLeft);
 
     if (token) {
+      console.log('VY: connecting to agora', { token, roomId, rtcUid });
       await client.join(AGORA_APP_ID, roomId, token, rtcUid);
       const localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
       await client.publish(localAudioTrack);
@@ -38,11 +39,13 @@ const useAgoraRTC = (roomId, rtcUid) => {
   };
 
   useEffect(() => {
-    initRtc();
-    return () => {
-      killRtc();
-    };
-  }, [token]);
+    if (roomId && rtcUid) {
+      initRtc();
+      return () => {
+        killRtc();
+      };
+    }
+  }, [token, roomId, rtcUid]);
 
   const handleUserJoined = async (user) => {
     console.log('USER:', user);
