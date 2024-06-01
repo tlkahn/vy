@@ -25,7 +25,9 @@ function LiveRoom() {
   const { roomId } = useParams();
   const { user } = useUserAuth();
   const prevUidRef = useRef(null);
+  const prevUsernameRef = useRef(null);
   const [uidInt, setUidInt] = useState(null);
+  const [username, setUsername] = useState(null);
   const { killRtc } = useAgoraRTC(roomId, uidInt);
 
   useEffect(() => {
@@ -39,6 +41,12 @@ function LiveRoom() {
   }, [prevUidRef.current]);
 
   useEffect(() => {
+    if (prevUsernameRef.current) {
+      setUsername(prevUsernameRef.current);
+    }
+  }, [prevUsernameRef.current]);
+
+  useEffect(() => {
     return () => {
       killRtc();
     };
@@ -48,6 +56,16 @@ function LiveRoom() {
     if (user && user.uid && user.uid !== prevUidRef.current) {
       log.info(`VY [INFO]: uid: ${JSON.stringify(user.uid)}`);
       prevUidRef.current = user.uid;
+    }
+    if (
+      user &&
+      user.displayName &&
+      user.displayName !== prevUsernameRef.current
+    ) {
+      log.info(
+        `VY [INFO]: user displayName: ${JSON.stringify(user.displayName)}`
+      );
+      prevUsernameRef.current = user.displayName;
     }
   }, [user]);
 

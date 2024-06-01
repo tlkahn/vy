@@ -11,6 +11,7 @@ import { UserAuthContextProvider } from './context/UserAuthContext';
 import LiveRoom from './components/LiveRoom';
 import ProtectedRoute from './components/ProtectedRoute';
 import { QuestionHistoryProvider } from './context/QuestionHistoryContext';
+import Chatroom from './components/Chatroom';
 
 function App() {
   const [, setMessage] = useState('');
@@ -28,6 +29,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/chat" element={<Chatroom />} />
             {/* Below are protected domains */}
             <Route path="*" element={<ProtectedRoute />}>
               <Route path="liverooms" element={<LiveRooms />} />
