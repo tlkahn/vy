@@ -18,16 +18,12 @@ async function hashString(str) {
 }
 
 function LiveRoom() {
-  if (process.env.NODE_ENV === 'development') {
-    log.setLevel('info');
-  }
-
   const { roomId } = useParams();
   const { user } = useUserAuth();
   const prevUidRef = useRef(null);
   const prevUsernameRef = useRef(null);
   const [uidInt, setUidInt] = useState(null);
-  const [username, setUsername] = useState(null);
+  const [_, setUsername] = useState(null);
   const { killRtc } = useAgoraRTC(roomId, uidInt);
 
   useEffect(() => {

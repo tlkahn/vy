@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import AgoraRTC from 'agora-rtc-sdk-ng';
 import useToken from './useToken';
 import { AGORA_APP_ID, AGORA_TOKEN_URL } from '../agora';
+import log from 'loglevel';
 
 const useAgoraRTC = (roomId, rtcUid) => {
   const [rtcClient, setRtcClient] = useState(null);
@@ -28,7 +29,7 @@ const useAgoraRTC = (roomId, rtcUid) => {
     client.on('user-left', handleUserLeft);
 
     if (token) {
-      console.log('VY: connecting to agora', { token, roomId, rtcUid });
+      log.info('VY: connecting to agora', { token, roomId, rtcUid });
       await client.join(AGORA_APP_ID, roomId, token, rtcUid);
       const localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
       await client.publish(localAudioTrack);
@@ -48,7 +49,7 @@ const useAgoraRTC = (roomId, rtcUid) => {
   }, [token, roomId, rtcUid]);
 
   const handleUserJoined = async (user) => {
-    console.log('USER:', user);
+    log.info('USER:', user);
   };
 
   const handleUserPublished = async (user, mediaType) => {

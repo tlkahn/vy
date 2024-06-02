@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useUserAuth } from '../context/UserAuthContext';
 import ProfileModal from './ProfileModal';
+import log from 'loglevel';
 
 const logoUrl = 'http://localhost:3000/images/logo.svg';
 const profileTitle = 'Profile';
@@ -20,7 +21,7 @@ const SideMenu = () => {
       await logOut();
       navigate('/');
     } catch (error) {
-      console.log(error.message);
+      log.info(error.message);
     }
   };
 
@@ -29,7 +30,7 @@ const SideMenu = () => {
   };
 
   const handleMakeroomButtonClick = () => {
-    console.log('making room...');
+    log.info('making room...');
     navigate('/liveroom/1');
   };
 

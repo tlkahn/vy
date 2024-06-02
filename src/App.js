@@ -11,10 +11,14 @@ import { UserAuthContextProvider } from './context/UserAuthContext';
 import LiveRoom from './components/LiveRoom';
 import ProtectedRoute from './components/ProtectedRoute';
 import { QuestionHistoryProvider } from './context/QuestionHistoryContext';
-
+import log from 'loglevel';
 const Chatroom = lazy(() => import('./components/Chatroom'));
 
 function App() {
+  if (process.env.NODE_ENV === 'development') {
+    log.setLevel('info');
+  }
+
   const [, setMessage] = useState('');
 
   useEffect(() => {

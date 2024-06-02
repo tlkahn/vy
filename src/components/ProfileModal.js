@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import log from 'loglevel';
 
 const ProfileModal = ({
   isProfileModalOpen,
@@ -43,7 +44,7 @@ const ProfileModal = ({
 
   // Update the handleFieldSubmit function to reset the editingField state
   const handleFieldSubmit = (field, value) => {
-    console.log(`Submitting ${field}: ${value}`);
+    log.info(`Submitting ${field}: ${value}`);
     // Implement the logic to update the user's information
     setEditingField(null); // Reset the editing field state
   };
@@ -76,7 +77,7 @@ const ProfileModal = ({
   };
 
   useEffect(() => {
-    console.log('editingField:', editingField);
+    log.info('editingField:', editingField);
   }, [editingField]);
 
   useEffect(() => {

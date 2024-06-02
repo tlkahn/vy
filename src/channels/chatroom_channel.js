@@ -4,13 +4,13 @@ const consumer = createConsumer('ws://localhost:3333/cable');
 
 const chatroomChannel = consumer.subscriptions.create('ChatroomChannel', {
   connected() {
-    console.log('Connected to the chatroom!');
+    log.info('Connected to the chatroom!');
   },
   disconnected() {
-    console.log('Disconnected from the chatroom!');
+    log.info('Disconnected from the chatroom!');
   },
   received(data) {
-    console.log(data);
+    log.info(data);
   },
   speak(message) {
     this.perform('speak', { message });

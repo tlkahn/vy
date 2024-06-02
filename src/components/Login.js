@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Form, Alert, Button } from 'react-bootstrap';
 import GoogleButton from 'react-google-button';
 import { useUserAuth } from '../context/UserAuthContext';
+import log from 'loglevel';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -28,7 +29,7 @@ const Login = () => {
       await googleSignIn();
       navigate('/home');
     } catch (error) {
-      console.log(error.message);
+      log.info(error.message);
     }
   };
 

@@ -8,6 +8,7 @@ import {
   signInWithPopup,
 } from 'firebase/auth';
 import { auth } from '../firebase';
+import log from 'loglevel';
 
 export const userAuthContext = createContext();
 
@@ -16,7 +17,7 @@ export function UserAuthContextProvider({ children }) {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    console.log('saving user: ', user);
+    log.info('saving user: ', user);
     localStorage.setItem('userJwt', JSON.stringify(user));
   }, [user]);
 
@@ -37,8 +38,12 @@ export function UserAuthContextProvider({ children }) {
   }
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
-      console.log('Auth', currentuser);
+    const unsubscribe = onAuthStateChanged(auth, async (currentuser) => {
+      log.info('Auth', currentuser);
+      const firebaseToke = await currentuser.getIdToken();
+      const firebaseTokeRes = await currentuser.getIdTokenResult();
+      log.info('JWT Token: ', firebaseToke);
+      log.info('JWT Token Res: ', firebaseTokeRes);
       setUser(currentuser);
     });
 
