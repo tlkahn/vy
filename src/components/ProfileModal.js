@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import log from 'loglevel';
+import api from '../api';
 
 const ProfileModal = ({
   isProfileModalOpen,
@@ -31,9 +32,10 @@ const ProfileModal = ({
 
   useEffect(() => {
     if (userId) {
-      fetch(`http://localhost:3000/api/onliners/${userId}`)
-        .then((response) => response.json())
-        .then((data) => {
+      api
+        .get(`/onliners/${userId}`)
+        .then((response) => {
+          const data = response.data;
           if (nameRef.current) nameRef.current.textContent = data.alias;
           if (descriptionRef.current)
             descriptionRef.current.textContent = data.description;

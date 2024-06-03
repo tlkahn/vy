@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Jdenticon from 'react-jdenticon';
 import ProfileModal from './ProfileModal';
+import api from '../api';
 
 function OnlinerList() {
   const [onliners, setOnliners] = useState([]);
@@ -14,8 +15,8 @@ function OnlinerList() {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch('http://localhost:3000/api/onliners');
-      setOnliners(await response.json());
+      const response = await api.get('/onliners');
+      setOnliners(await response.data);
     })();
   }, []);
 

@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import AudioPlayer from './AudioPlayer';
 import { useParams } from 'react-router-dom';
 import SideMenu from './SideMenu';
+import api from '../api';
 
 const SequenceComponent = () => {
   const { id } = useParams();
@@ -45,9 +46,9 @@ const SequenceComponent = () => {
 
   useEffect(() => {
     // Initialize isFavoredList with false for each session
-    fetch(`http://localhost:3000/api/sessions_of/${id}`)
-      .then((response) => response.json())
-      .then((data) => setSessions(data))
+    api
+      .get(`/sessions_of/${id}`)
+      .then((response) => setSessions(response.data))
       .then(() => setIsFavoredList(sessions.map((session) => session.favored)));
   }, []);
 

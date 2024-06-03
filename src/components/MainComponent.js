@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import 'font-awesome/css/font-awesome.min.css';
 import SideMenu from './SideMenu';
+import api from '../api';
 
 const getGreetingMessage = () => {
   const currentHour = new Date().getHours();
@@ -54,9 +55,7 @@ function MainComponent() {
   const scrollForward = (tagId) => scroll(tagId, 1);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/tags')
-      .then((response) => response.json())
-      .then((data) => setTags(data));
+    api.get('/tags').then((response) => setTags(response.data));
   }, []);
 
   useEffect(() => {

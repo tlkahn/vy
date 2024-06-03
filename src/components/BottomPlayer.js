@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import 'font-awesome/css/font-awesome.min.css';
 import AudioPlayer from './AudioPlayer';
 import QuestionForm from './QuestionForm';
+import api from '../api';
 
 const BottomPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -32,9 +33,7 @@ const BottomPlayer = () => {
   };
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/bgms')
-      .then((response) => response.json())
-      .then((data) => setBgms(data));
+    api.get('/bgms').then((response) => setBgms(response.data));
   }, []);
 
   useEffect(() => {

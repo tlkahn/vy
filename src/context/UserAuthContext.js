@@ -19,7 +19,7 @@ export function UserAuthContextProvider({ children }) {
 
   useEffect(() => {
     if (user?.uid) {
-      log.info('saving user: ', user);
+      log.info('Saving user: ', user);
       localStorage.setItem('userJwt', JSON.stringify(user));
     }
   }, [user]);

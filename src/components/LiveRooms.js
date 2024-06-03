@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SideMenu from './SideMenu';
+import api from '../api';
 
 const LiveRooms = () => {
   const [rooms, setRooms] = useState([]);
@@ -27,8 +28,8 @@ const LiveRooms = () => {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch('http://localhost:3000/api/rooms');
-      setRooms(await response.json());
+      const rooms = await api.get('/rooms');
+      setRooms(rooms.data);
     })();
   }, []);
 
