@@ -1,19 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useChat } from '../context/ChatContext'; // Adjust the path as needed
 import PropTypes from 'prop-types';
+import log from 'loglevel';
 
 const QuestionForm = ({ toggleModal }) => {
   const [userQuestion, setUserQuestion] = useState('');
   const modalRef = useRef(); // Ref for the modal container
   const containerRef = useRef(); // Ref for the modal container
+  const { chatroomChannelRef, messages } = useChat();
 
   const handleQuestionSubmit = (e) => {
     e.preventDefault();
-    setQuestionHistory([...questionHistory, userQuestion]);
     setUserQuestion('');
+    chatroomChannelRef.current.speak(userQuestion);
   };
-
-  const { questionHistory, setQuestionHistory } = useChat();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -21,12 +21,15 @@ const QuestionForm = ({ toggleModal }) => {
         toggleModal(false); // Assuming toggleModal can accept a boolean to show/hide
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [toggleModal]); // Add toggleModal to the dependencies array if it changes
+
+  useEffect(() => {
+    log.info({ messages });
+  }, [messages]);
 
   return (
     <>
@@ -39,11 +42,12 @@ const QuestionForm = ({ toggleModal }) => {
           className="bg-gray-700 p-5 rounded-lg question-form-container"
         >
           <div className="question-history bg-gray-600 p-4 mb-4 rounded overflow-auto max-h-40">
-            {questionHistory.map((question, index) => (
-              <div key={index} className="text-white mb-2 last:mb-0">
-                {question}
-              </div>
-            ))}
+            {messages &&
+              messages.map((m, index) => (
+                <div key={index} className="text-white mb-2 last:mb-0">
+                  {m.content}
+                </div>
+              ))}
           </div>
           <form
             onSubmit={handleQuestionSubmit}

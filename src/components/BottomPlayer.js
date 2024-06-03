@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, lazy } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'font-awesome/css/font-awesome.min.css';
 import AudioPlayer from './AudioPlayer';
-import QuestionForm from './QuestionForm';
+const QuestionForm = lazy(() => import('./QuestionForm'));
 import api from '../api';
 
 const BottomPlayer = () => {

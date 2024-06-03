@@ -8,11 +8,10 @@ import LiveRooms from './components/LiveRooms';
 import SequenceComponent from './components/SequenceComponent';
 import CategoryComponent from './components/CategoryComponent';
 import { UserAuthContextProvider } from './context/UserAuthContext';
-import LiveRoom from './components/LiveRoom';
 import ProtectedRoute from './components/ProtectedRoute';
 import { ChatProvider } from './context/ChatContext';
 import log from 'loglevel';
-const Chatroom = lazy(() => import('./components/Chatroom'));
+const LiveRoom = lazy(() => import('./components/LiveRoom'));
 
 function App() {
   if (process.env.NODE_ENV === 'development') {
@@ -28,7 +27,6 @@ function App() {
               <Route path="/" element={<Login />} />
               <Route path="/signin" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
-              <Route path="/chat" element={<Chatroom />} />
               {/* Below are protected domains */}
               <Route path="*" element={<ProtectedRoute />}>
                 <Route path="liverooms" element={<LiveRooms />} />

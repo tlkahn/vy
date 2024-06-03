@@ -9,6 +9,7 @@ import { useUserAuth } from '../context/UserAuthContext';
 import { cable_api } from '../api';
 import { createConsumer } from '@rails/actioncable';
 import { getToken } from '../api';
+import { useChat } from '../context/ChatContext';
 
 async function hashString(str) {
   const encoder = new TextEncoder();
@@ -28,21 +29,17 @@ function LiveRoom() {
   const [uidInt, setUidInt] = useState(null);
   const [_, setUsername] = useState(null);
   const { killRtc } = useAgoraRTC(roomId, uidInt);
-  const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState('');
   const [onlineUsers, setOnlineUsers] = useState([]);
   const { loading } = useUserAuth();
-  const chatroomChannelRef = useRef(null);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    chatroomChannelRef.current.speak(message);
-    setMessage('');
-  };
+  const { chatroomChannelRef, setMessages } = useChat();
 
   if (loading) {
     return <div>Loading...</div>;
   }
+
+  useEffect(() => {
+    log.info({ onlineUsers });
+  }, [onlineUsers]);
 
   useEffect(() => {
     if (loading) return; // Wait until loading is complete
@@ -59,7 +56,7 @@ function LiveRoom() {
           log.info('Disconnected from the chatroom!');
         },
         received(data) {
-          log.info(data);
+          log.info('Data from cable', { data });
           if (data.type === 'online_users') {
             setOnlineUsers(data.users);
           }
@@ -78,7 +75,10 @@ function LiveRoom() {
     });
 
     return () => {
-      consumer.disconnect();
+      if (chatroomChannelRef.current) {
+        chatroomChannelRef.current.unsubscribe();
+        consumer.disconnect();
+      }
     };
   }, [loading]);
 
@@ -98,11 +98,11 @@ function LiveRoom() {
     }
   }, [prevUsernameRef.current]);
 
-  useEffect(() => {
-    return () => {
-      killRtc();
-    };
-  }, [killRtc]);
+  // useEffect(() => {
+  //   return () => {
+  //     killRtc();
+  //   };
+  // }, [killRtc]);
 
   useEffect(() => {
     if (user && user.uid && user.uid !== prevUidRef.current) {

@@ -7,12 +7,16 @@ const ChatContext = createContext();
 export const useChat = () => useContext(ChatContext);
 
 export const ChatProvider = ({ children }) => {
-  const chatroomChannelRef = useRef();
-  const [questionHistory, setQuestionHistory] = useState([]);
+  const chatroomChannelRef = useRef(null);
+  const [messages, setMessages] = useState([]);
 
   return (
     <ChatContext.Provider
-      value={{ chatroomChannelRef, questionHistory, setQuestionHistory }}
+      value={{
+        chatroomChannelRef,
+        messages,
+        setMessages,
+      }}
     >
       {children}
     </ChatContext.Provider>
