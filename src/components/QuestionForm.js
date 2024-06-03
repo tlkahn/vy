@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useQuestionHistory } from '../context/QuestionHistoryContext'; // Adjust the path as needed
+import { useChat } from '../context/ChatContext'; // Adjust the path as needed
 import PropTypes from 'prop-types';
 
 const QuestionForm = ({ toggleModal }) => {
@@ -13,7 +13,7 @@ const QuestionForm = ({ toggleModal }) => {
     setUserQuestion('');
   };
 
-  const { questionHistory, setQuestionHistory } = useQuestionHistory();
+  const { questionHistory, setQuestionHistory } = useChat();
 
   useEffect(() => {
     const handleClickOutside = (event) => {

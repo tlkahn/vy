@@ -6,6 +6,9 @@ import { useParams } from 'react-router-dom';
 import useAgoraRTC from '../hooks/useAgoraRTC';
 import log from 'loglevel';
 import { useUserAuth } from '../context/UserAuthContext';
+import { cable_api } from '../api';
+import { createConsumer } from '@rails/actioncable';
+import { getToken } from '../api';
 
 async function hashString(str) {
   const encoder = new TextEncoder();
@@ -25,6 +28,59 @@ function LiveRoom() {
   const [uidInt, setUidInt] = useState(null);
   const [_, setUsername] = useState(null);
   const { killRtc } = useAgoraRTC(roomId, uidInt);
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState('');
+  const [onlineUsers, setOnlineUsers] = useState([]);
+  const { loading } = useUserAuth();
+  const chatroomChannelRef = useRef(null);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    chatroomChannelRef.current.speak(message);
+    setMessage('');
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  useEffect(() => {
+    if (loading) return; // Wait until loading is complete
+    const jwt = getToken(); // Get the JWT token from local storage or another storage mechanism
+    const consumer = createConsumer(`ws://localhost:3333/cable?jwt=${jwt}`);
+
+    chatroomChannelRef.current = consumer.subscriptions.create(
+      'ChatroomChannel',
+      {
+        connected() {
+          log.info('Connected to the chatroom!');
+        },
+        disconnected() {
+          log.info('Disconnected from the chatroom!');
+        },
+        received(data) {
+          log.info(data);
+          if (data.type === 'online_users') {
+            setOnlineUsers(data.users);
+          }
+          if (data.type === 'message') {
+            setMessages((prevMessages) => [...prevMessages, data.message]);
+          }
+        },
+        speak(message) {
+          this.perform('speak', { message });
+        },
+      }
+    );
+
+    cable_api.get('/messages').then((response) => {
+      setMessages(response.data);
+    });
+
+    return () => {
+      consumer.disconnect();
+    };
+  }, [loading]);
 
   useEffect(() => {
     async function updateUidInt() {
@@ -50,7 +106,7 @@ function LiveRoom() {
 
   useEffect(() => {
     if (user && user.uid && user.uid !== prevUidRef.current) {
-      log.info(`VY [INFO]: uid: ${JSON.stringify(user.uid)}`);
+      log.info(`[VY] [INFO]: uid: ${JSON.stringify(user.uid)}`);
       prevUidRef.current = user.uid;
     }
     if (
@@ -59,14 +115,14 @@ function LiveRoom() {
       user.displayName !== prevUsernameRef.current
     ) {
       log.info(
-        `VY [INFO]: user displayName: ${JSON.stringify(user.displayName)}`
+        `[VY] [INFO]: user displayName: ${JSON.stringify(user.displayName)}`
       );
       prevUsernameRef.current = user.displayName;
     }
   }, [user]);
 
   useEffect(() => {
-    log.info(`VY [INFO]: room id: ${roomId}`);
+    log.info(`[VY] [INFO]: room id: ${roomId}`);
   }, [roomId]);
 
   return (

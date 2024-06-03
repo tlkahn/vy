@@ -10,7 +10,7 @@ import CategoryComponent from './components/CategoryComponent';
 import { UserAuthContextProvider } from './context/UserAuthContext';
 import LiveRoom from './components/LiveRoom';
 import ProtectedRoute from './components/ProtectedRoute';
-import { QuestionHistoryProvider } from './context/QuestionHistoryContext';
+import { ChatProvider } from './context/ChatContext';
 import log from 'loglevel';
 const Chatroom = lazy(() => import('./components/Chatroom'));
 
@@ -22,7 +22,7 @@ function App() {
   return (
     <BrowserRouter>
       <UserAuthContextProvider>
-        <QuestionHistoryProvider>
+        <ChatProvider>
           <Suspense fallback={<div>Loading...</div>}>
             <Routes>
               <Route path="/" element={<Login />} />
@@ -39,7 +39,7 @@ function App() {
               </Route>
             </Routes>
           </Suspense>
-        </QuestionHistoryProvider>
+        </ChatProvider>
       </UserAuthContextProvider>
     </BrowserRouter>
   );
