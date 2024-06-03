@@ -9,6 +9,7 @@ import {
 } from 'firebase/auth';
 import { auth } from '../firebase';
 import log from 'loglevel';
+import axios from 'axios';
 
 export const userAuthContext = createContext();
 
@@ -39,11 +40,14 @@ export function UserAuthContextProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentuser) => {
-      log.info('Auth', currentuser);
-      const firebaseToke = await currentuser.getIdToken();
+      log.info('current user: ', currentuser);
+      const firebaseToken = await currentuser.getIdToken();
       const firebaseTokeRes = await currentuser.getIdTokenResult();
-      log.info('JWT Token: ', firebaseToke);
+      log.info('JWT Token: ', firebaseToken);
       log.info('JWT Token Res: ', firebaseTokeRes);
+
+      await sendFirebaseTokenToRailsServer(firebaseToken);
+
       setUser(currentuser);
     });
 
@@ -51,6 +55,29 @@ export function UserAuthContextProvider({ children }) {
       unsubscribe();
     };
   }, []);
+
+  async function sendFirebaseTokenToRailsServer(firebaseIdToken) {
+    try {
+      const response = await axios.post(
+        'http://localhost:3333/custom_auth/exchange_token',
+        {
+          firebase_id_token: firebaseIdToken,
+        }
+      );
+      const jwtToken = response.headers['authorization'];
+      if (jwtToken) {
+        localStorage.setItem('jwtToken', jwtToken);
+        log.info('JWT Token stored:', jwtToken);
+      } else {
+        log.error('JWT Token not found in response headers');
+      }
+    } catch (error) {
+      log.error(
+        'Error exchanging Firebase ID token:',
+        error.response?.data || error.message
+      );
+    }
+  }
 
   return (
     <userAuthContext.Provider
