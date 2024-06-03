@@ -16,11 +16,13 @@ export const userAuthContext = createContext();
 // eslint-disable-next-line react/prop-types
 export function UserAuthContextProvider({ children }) {
   const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (user?.uid) {
       log.info('Saving user: ', user);
       localStorage.setItem('userJwt', JSON.stringify(user));
+      setLoading(false);
     }
   }, [user]);
 
@@ -66,7 +68,7 @@ export function UserAuthContextProvider({ children }) {
         'http://localhost:3333/custom_auth/exchange_token',
         {
           firebase_id_token: firebaseIdToken,
-        }
+        },
       );
       const jwtToken = response.headers['authorization'];
       if (jwtToken) {
@@ -78,14 +80,14 @@ export function UserAuthContextProvider({ children }) {
     } catch (error) {
       log.error(
         'Error exchanging Firebase ID token:',
-        error.response?.data || error.message
+        error.response?.data || error.message,
       );
     }
   }
 
   return (
     <userAuthContext.Provider
-      value={{ user, logIn, signUp, logOut, googleSignIn }}
+      value={{ user, logIn, signUp, logOut, googleSignIn, loading }}
     >
       {children}
     </userAuthContext.Provider>
