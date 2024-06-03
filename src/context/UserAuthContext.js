@@ -18,8 +18,10 @@ export function UserAuthContextProvider({ children }) {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    log.info('saving user: ', user);
-    localStorage.setItem('userJwt', JSON.stringify(user));
+    if (user?.uid) {
+      log.info('saving user: ', user);
+      localStorage.setItem('userJwt', JSON.stringify(user));
+    }
   }, [user]);
 
   function logIn(email, password) {
@@ -40,15 +42,17 @@ export function UserAuthContextProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentuser) => {
-      log.info('current user: ', currentuser);
-      const firebaseToken = await currentuser.getIdToken();
-      const firebaseTokeRes = await currentuser.getIdTokenResult();
-      log.info('JWT Token: ', firebaseToken);
-      log.info('JWT Token Res: ', firebaseTokeRes);
+      if (currentuser) {
+        log.info('current user: ', currentuser);
+        const firebaseToken = await currentuser.getIdToken();
+        const firebaseTokeRes = await currentuser.getIdTokenResult();
+        log.info('JWT Token: ', firebaseToken);
+        log.info('JWT Token Res: ', firebaseTokeRes);
 
-      await sendFirebaseTokenToRailsServer(firebaseToken);
+        await sendFirebaseTokenToRailsServer(firebaseToken);
 
-      setUser(currentuser);
+        setUser(currentuser);
+      }
     });
 
     return () => {

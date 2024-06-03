@@ -34,6 +34,7 @@ function App() {
           <Suspense fallback={<div>Loading...</div>}>
             <Routes>
               <Route path="/" element={<Login />} />
+              <Route path="/signin" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/chat" element={<Chatroom />} />
               {/* Below are protected domains */}
