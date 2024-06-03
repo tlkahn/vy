@@ -20,6 +20,7 @@ const SideMenu = () => {
     try {
       await logOut();
       navigate('/');
+      localStorage.clear();
     } catch (error) {
       log.info(error.message);
     }

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import BottomPlayer from './BottomPlayer';
 import OnlinerList from './OnlinerList';
 import SideMenu from './SideMenu';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import useAgoraRTC from '../hooks/useAgoraRTC';
 import log from 'loglevel';
 import { useUserAuth } from '../context/UserAuthContext';
@@ -29,13 +29,32 @@ function LiveRoom() {
   const [uidInt, setUidInt] = useState(null);
   const [_, setUsername] = useState(null);
   const { killRtc } = useAgoraRTC(roomId, uidInt);
+  const { chatroomChannelRef, setMessages, killRtcRef } = useChat();
   const [onlineUsers, setOnlineUsers] = useState([]);
   const { loading } = useUserAuth();
-  const { chatroomChannelRef, setMessages } = useChat();
+  const location = useLocation();
 
   if (loading) {
     return <div>Loading...</div>;
   }
+
+  useEffect(() => {
+    if (killRtc) {
+      killRtcRef.current = killRtc;
+    }
+  }, [killRtc]);
+
+  useEffect(() => {
+    const handleNavigation = () => {
+      if (killRtcRef?.current) {
+        killRtcRef.current();
+      }
+    };
+    handleNavigation(); // Initial call to handle the current location
+    return () => {
+      handleNavigation();
+    };
+  }, [location, killRtcRef]);
 
   useEffect(() => {
     log.info({ onlineUsers });
@@ -97,12 +116,6 @@ function LiveRoom() {
       setUsername(prevUsernameRef.current);
     }
   }, [prevUsernameRef.current]);
-
-  // useEffect(() => {
-  //   return () => {
-  //     killRtc();
-  //   };
-  // }, [killRtc]);
 
   useEffect(() => {
     if (user && user.uid && user.uid !== prevUidRef.current) {
