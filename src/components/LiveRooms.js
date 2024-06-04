@@ -59,6 +59,7 @@ const LiveRooms = () => {
     cable_api.post('/rooms', { room: { name: roomName } }).then(({ data }) => {
       setRooms([...rooms, data]);
       setRoomName('');
+      navigate(`/liveroom/${data.id}`);
     });
   };
 
@@ -88,12 +89,14 @@ const LiveRooms = () => {
                   transition: 'transform 0.3s ease', // Smooth transition for transform changes
                   transform: 'scale(1)', // Initial scale is 1
                 }}
-                onMouseOver={(e) =>
-                  (e.currentTarget.style.transform = 'scale(1.05)')
-                } // Scale up a bit when mouse hovers
+                onMouseOver={(e) => {
+                  const scaleValue =
+                    window.innerWidth >= 1024 ? 'scale(1.02)' : 'scale(1.05)';
+                  e.currentTarget.style.transform = scaleValue;
+                }}
                 onMouseOut={(e) =>
                   (e.currentTarget.style.transform = 'scale(1)')
-                } // Return to initial scale when mouse is not hovering
+                }
               >
                 <div
                   className="room-name-setter"
@@ -187,7 +190,7 @@ const LiveRooms = () => {
                   className="bg-gray-700 text-white px-4 py-2 rounded"
                   onClick={handleConfirm}
                 >
-                  Create Channel
+                  Create
                 </button>
               </div>
             </div>
