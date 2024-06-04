@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SideMenu from './SideMenu';
-import api from '../api';
+import { cable_api } from '../api';
+import log from 'loglevel';
 
 const LiveRooms = () => {
   const [rooms, setRooms] = useState([]);
+  const [currentRoom, setCurrentRoom] = useState(null);
+  const currentRoomInputName = 'roomNameInput';
+  const [roomName, setRoomName] = useState('');
   const navigate = useNavigate();
 
   const handleRoomClick = (selectedRoomId) => {
@@ -12,7 +16,7 @@ const LiveRooms = () => {
   };
 
   const activeFor = (room) => {
-    const ms = new Date() - new Date(room.from);
+    const ms = new Date() - new Date(room.created_at);
     if (ms < 60000) return 'Less than a minute';
     const days = Math.floor(ms / (86400 * 1000));
     const hours = Math.floor((ms % (86400 * 1000)) / (3600 * 1000));
@@ -26,12 +30,34 @@ const LiveRooms = () => {
       .join(', ');
   };
 
+  const createChannel = () => {
+    if (!roomName) {
+      // TODO: Pop up the modal which contains the room name input
+      return alert('empty roomName');
+    }
+    cable_api.post('/rooms', { room: { name: roomName } }).then(({ data }) => {
+      setRooms([...rooms, data]);
+      setRoomName('');
+    });
+  };
+
   useEffect(() => {
-    (async () => {
-      const rooms = await api.get('/rooms');
-      setRooms(rooms.data);
-    })();
+    log.info({ roomName });
+  }, [roomName]);
+
+  useEffect(() => {
+    cable_api.get('/rooms').then((response) => {
+      setRooms(response.data);
+    });
   }, []);
+
+  useEffect(() => {
+    return () => {
+      if (currentRoom) {
+        currentRoom.unsubscribe();
+      }
+    };
+  }, [currentRoom]);
 
   return (
     <>
@@ -71,13 +97,13 @@ const LiveRooms = () => {
                   ></div>
                   <div className="z-10 relative aspect-w-1 aspect-h-1">
                     <div className="text-md text-center font-bold flex flex-col justify-center items-center w-full">
-                      {room.channel}
+                      {room.name}
                     </div>
                     <div className="text-sm flex items-center justify-center mt-8 w-full">
                       <span className="inline-flex items-center justify-center w-6">
                         <i className="fa fa-clock-o"></i>
                       </span>
-                      <span className="inline-flex items-center justify-center w-16">
+                      <span className="inline-flex items-center justify-center">
                         {activeFor(room)}
                       </span>
                     </div>
@@ -85,6 +111,19 @@ const LiveRooms = () => {
                 </li>
               ))}
             </ul>
+            <div className="room-name-setter">
+              <input
+                className="text-black"
+                type="text"
+                name={currentRoomInputName}
+                placeholder="Room Name"
+                value={roomName}
+                onChange={(e) => setRoomName(e.target.value)}
+              />
+              <button onClick={createChannel} type="button">
+                Create Channel
+              </button>
+            </div>
           </div>
         </div>
       </div>

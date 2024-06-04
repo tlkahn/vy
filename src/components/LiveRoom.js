@@ -66,7 +66,7 @@ function LiveRoom() {
     const consumer = createConsumer(`ws://localhost:3333/cable?jwt=${jwt}`);
 
     chatroomChannelRef.current = consumer.subscriptions.create(
-      'ChatroomChannel',
+      { channel: 'ChatroomChannel', channel_id: roomId },
       {
         connected() {
           log.info('Connected to the chatroom!');
@@ -84,14 +84,10 @@ function LiveRoom() {
           }
         },
         speak(message) {
-          this.perform('speak', { message });
+          this.perform('speak', { message, channel_id: roomId });
         },
       }
     );
-
-    cable_api.get('/messages').then((response) => {
-      setMessages(response.data);
-    });
 
     return () => {
       if (chatroomChannelRef.current) {
