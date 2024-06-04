@@ -2,6 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useChat } from '../context/ChatContext'; // Adjust the path as needed
 import PropTypes from 'prop-types';
 import log from 'loglevel';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
+import { faTimeline, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const QuestionForm = ({ toggleModal }) => {
   const [userQuestion, setUserQuestion] = useState('');
@@ -61,12 +64,12 @@ const QuestionForm = ({ toggleModal }) => {
               className="text-black flex-grow p-2"
             />
             <button type="submit" className="ml-2 p-2">
-              <i className="fa fa-paper-plane"></i>
+              <FontAwesomeIcon icon={faPaperPlane} />
             </button>
           </form>
         </div>
         <button onClick={toggleModal} className="absolute top-0 right-0 p-4">
-          <i className="fa fa-times"></i>
+          <FontAwesomeIcon icon={faTimes} />
         </button>
       </div>
     </>

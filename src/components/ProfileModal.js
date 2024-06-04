@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import log from 'loglevel';
 import api from '../api';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit } from '@fortawesome/free-regular-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const ProfileModal = ({
   isProfileModalOpen,
@@ -131,7 +134,10 @@ const ProfileModal = ({
                 onClick={() => handleEditButtonClick('description')}
                 className="text-white focus:outline-none"
               >
-                <i className={`fa fa-edit ${editingField ? 'hidden' : ''}`}></i>
+                <FontAwesomeIcon
+                  icon={faEdit}
+                  className={editingField ? 'hidden' : ''}
+                />
               </button>
             </div>
           </div>
@@ -141,7 +147,7 @@ const ProfileModal = ({
             }}
             className="text-white absolute top-0 right-0 p-4 z-100"
           >
-            <i className="fa fa-times"></i>
+            <FontAwesomeIcon icon={faTimes} />
           </button>
         </div>
       </div>

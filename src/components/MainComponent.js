@@ -1,8 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import 'font-awesome/css/font-awesome.min.css';
 import SideMenu from './SideMenu';
 import api from '../api';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faChevronLeft,
+  faChevronRight,
+  faSearch,
+  faTh,
+} from '@fortawesome/free-solid-svg-icons';
 
 const getGreetingMessage = () => {
   const currentHour = new Date().getHours();
@@ -76,7 +82,7 @@ function MainComponent() {
                 onClick={handleSearchFocus}
                 className="text-2xl absolute left-0 top-1/2 transform -translate-y-1/2 focus:outline-none text-gray-500"
               >
-                <i className="fa fa-search" />
+                <FontAwesomeIcon icon={faSearch} />
               </button>
               <input
                 type="text"
@@ -98,16 +104,16 @@ function MainComponent() {
                       className="scroll-btn scroll-back"
                       onClick={() => scrollBack(index)}
                     >
-                      <i className="fa fa-chevron-left"></i>
+                      <FontAwesomeIcon icon={faChevronLeft} />
                     </button>
                     <button
                       className="scroll-btn scroll-forward px-1"
                       onClick={() => scrollForward(index)}
                     >
-                      <i className="fa fa-chevron-right"></i>
+                      <FontAwesomeIcon icon={faChevronRight} />
                     </button>
                     <button className="show-all-btn px-1">
-                      <i className="fa fa-th"></i>
+                      <FontAwesomeIcon icon={faTh} />
                     </button>
                   </div>
                 </div>

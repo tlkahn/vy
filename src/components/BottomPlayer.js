@@ -1,9 +1,19 @@
 import React, { useState, useEffect, useRef, lazy } from 'react';
 import { useNavigate } from 'react-router-dom';
-import 'font-awesome/css/font-awesome.min.css';
 import AudioPlayer from './AudioPlayer';
 const QuestionForm = lazy(() => import('./QuestionForm'));
 import api from '../api';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faEllipsis,
+  faPause,
+  faPlay,
+  faQuestion,
+  faStop,
+  faTimes,
+} from '@fortawesome/free-solid-svg-icons';
+import { faCircle } from '@fortawesome/free-regular-svg-icons';
+import { faCircle as faCircleSolid } from '@fortawesome/free-solid-svg-icons';
 
 const BottomPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -78,7 +88,7 @@ const BottomPlayer = () => {
                 className="text-white hover:text-black"
                 onClick={handleChoose}
               >
-                <i className="fa fa-times"></i>
+                <FontAwesomeIcon icon={faTimes} />
               </button>
             </div>
             <ul className="divide-y divide-gray-200">
@@ -126,7 +136,11 @@ const BottomPlayer = () => {
             onClick={togglePlayPause}
             disabled={!currentBgm}
           >
-            <i className={isPlaying ? 'fa fa-pause' : 'fa fa-play'}></i>
+            {isPlaying ? (
+              <FontAwesomeIcon icon={faPause} />
+            ) : (
+              <FontAwesomeIcon icon={faPlay} />
+            )}
             <span className="hidden sm:inline w-16 text-center">
               {isPlaying ? 'Pause' : 'Play'}
             </span>
@@ -135,7 +149,11 @@ const BottomPlayer = () => {
             className="text-white flex flex-col items-center"
             onClick={toggleRecord}
           >
-            <i className={isRecording ? 'fa fa-circle' : 'fa fa-circle-o'}></i>
+            {isRecording ? (
+              <FontAwesomeIcon icon={faStop} />
+            ) : (
+              <FontAwesomeIcon icon={faCircleSolid} />
+            )}
             <span className="hidden sm:inline w-16 text-center">
               {isRecording ? 'Stop' : 'Record'}
             </span>
@@ -146,21 +164,21 @@ const BottomPlayer = () => {
             }`}
             onClick={isPlaying ? undefined : handleChoose}
           >
-            <i className="fa fa-ellipsis-h"></i>
+            <FontAwesomeIcon icon={faEllipsis} />
             <span className="hidden sm:inline w-16 text-center">Choose</span>
           </button>
           <button
             className="text-white flex flex-col items-center"
             onClick={toggleModal}
           >
-            <i className="fa fa-question"></i>
+            <FontAwesomeIcon icon={faQuestion} />
             <span className="hidden sm:inline w-16 text-center">Ask</span>
           </button>
           <button
             className="text-white flex flex-col items-center"
             onClick={handleDismiss}
           >
-            <i className="fa fa-times-circle"></i>
+            <FontAwesomeIcon icon={faTimes} />
             <span className="hidden sm:inline w-16 text-center">Dismiss</span>
           </button>
         </div>

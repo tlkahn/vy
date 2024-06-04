@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import SideMenu from './SideMenu';
 import { cable_api } from '../api';
 import log from 'loglevel';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClock } from '@fortawesome/free-regular-svg-icons';
 
 const LiveRooms = () => {
   const [rooms, setRooms] = useState([]);
@@ -101,7 +103,7 @@ const LiveRooms = () => {
                     </div>
                     <div className="text-sm flex items-center justify-center mt-8 w-full">
                       <span className="inline-flex items-center justify-center w-6">
-                        <i className="fa fa-clock-o"></i>
+                        <FontAwesomeIcon icon={faClock} />
                       </span>
                       <span className="inline-flex items-center justify-center">
                         {activeFor(room)}

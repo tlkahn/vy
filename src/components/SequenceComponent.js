@@ -4,6 +4,13 @@ import AudioPlayer from './AudioPlayer';
 import { useParams } from 'react-router-dom';
 import SideMenu from './SideMenu';
 import api from '../api';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClock, faHeart } from '@fortawesome/free-regular-svg-icons';
+import {
+  faPause,
+  faPlaceOfWorship,
+  faPlay,
+} from '@fortawesome/free-solid-svg-icons';
 
 const SequenceComponent = () => {
   const { id } = useParams();
@@ -117,7 +124,7 @@ const SequenceComponent = () => {
                           {session.title}
                         </div>
                         <div className="duration text-gray-600">
-                          <i className="fa fa-clock-o mr-2"></i>
+                          <FontAwesomeIcon icon={faClock} className="mr-2" />
                           {session.duration}
                         </div>
                         <button
@@ -128,9 +135,15 @@ const SequenceComponent = () => {
                           }}
                         >
                           {isFavoredList[index] ? (
-                            <i className="fa fa-heart text-red-500"></i>
+                            <FontAwesomeIcon
+                              icon={faHeart}
+                              className="text-red-500"
+                            />
                           ) : (
-                            <i className="fa fa-heart-o text-gray-500"></i>
+                            <FontAwesomeIcon
+                              icon={faHeart}
+                              className="text-gray-500"
+                            />
                           )}
                         </button>
                       </li>
@@ -142,9 +155,9 @@ const SequenceComponent = () => {
             <div className="bottom-player fixed bottom-0 left-0 right-0 bg-gray-900 text-white flex items-center justify-between p-4">
               <button className="play-button mx-auto" onClick={togglePlay}>
                 {isPlaying ? (
-                  <i className="fa fa-pause"></i>
+                  <FontAwesomeIcon icon={faPause} />
                 ) : (
-                  <i className="fa fa-play"></i>
+                  <FontAwesomeIcon icon={faPlay} />
                 )}
               </button>
             </div>
