@@ -5,13 +5,33 @@ import { cable_api } from '../api';
 import log from 'loglevel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const LiveRooms = () => {
   const [rooms, setRooms] = useState([]);
-  const [currentRoom, setCurrentRoom] = useState(null);
   const currentRoomInputName = 'roomNameInput';
   const [roomName, setRoomName] = useState('');
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      handleCloseModal();
+    }
+  };
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleConfirm = () => {
+    createChannel();
+    handleCloseModal();
+  };
 
   const handleRoomClick = (selectedRoomId) => {
     navigate(`/liveroom/${selectedRoomId}`);
@@ -34,8 +54,7 @@ const LiveRooms = () => {
 
   const createChannel = () => {
     if (!roomName) {
-      // TODO: Pop up the modal which contains the room name input
-      return alert('empty roomName');
+      return alert('Empty room name');
     }
     cable_api.post('/rooms', { room: { name: roomName } }).then(({ data }) => {
       setRooms([...rooms, data]);
@@ -53,14 +72,6 @@ const LiveRooms = () => {
     });
   }, []);
 
-  useEffect(() => {
-    return () => {
-      if (currentRoom) {
-        currentRoom.unsubscribe();
-      }
-    };
-  }, [currentRoom]);
-
   return (
     <>
       <div className="scene-video-background bg-gray-700 text-white min-h-screen">
@@ -68,6 +79,42 @@ const LiveRooms = () => {
           <SideMenu />
           <div id="main-content" className="w-full md:w-3/4 lg:w-6/7 pt-4">
             <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+              <li
+                className="cursor-pointer hover:bg-gray-600 p-2 rounded-lg relative overflow-hidden flex flex-col justify-center items-center"
+                style={{
+                  backgroundImage: `url('http://localhost:3000/images/room1.jpeg')`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  transition: 'transform 0.3s ease', // Smooth transition for transform changes
+                  transform: 'scale(1)', // Initial scale is 1
+                }}
+                onMouseOver={(e) =>
+                  (e.currentTarget.style.transform = 'scale(1.05)')
+                } // Scale up a bit when mouse hovers
+                onMouseOut={(e) =>
+                  (e.currentTarget.style.transform = 'scale(1)')
+                } // Return to initial scale when mouse is not hovering
+              >
+                <div
+                  className="room-name-setter"
+                  style={{
+                    width: '25%',
+                    textAlign: 'center',
+                  }}
+                >
+                  <button
+                    onClick={handleOpenModal}
+                    type="button"
+                    style={{ width: '100%' }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faPlus}
+                      size="3x"
+                      style={{ width: '100%', height: 'auto' }}
+                    />
+                  </button>
+                </div>
+              </li>
               {rooms.map((room) => (
                 <li
                   key={room.id}
@@ -113,21 +160,43 @@ const LiveRooms = () => {
                 </li>
               ))}
             </ul>
-            <div className="room-name-setter">
+          </div>
+        </div>
+      </div>
+      <div>
+        {showModal && (
+          <div className="fixed inset-0 z-20 flex items-center justify-center">
+            <div
+              className="absolute inset-0 bg-black opacity-50"
+              onClick={handleOverlayClick}
+            ></div>
+            <div className="bg-white rounded-lg p-6 w-96 mx-auto z-50">
+              <h2 className="text-xl font-semibold mb-4">Create New Channel</h2>
               <input
-                className="text-black"
+                className="text-black border border-gray-300 p-2 w-full rounded"
                 type="text"
                 name={currentRoomInputName}
                 placeholder="Room Name"
                 value={roomName}
                 onChange={(e) => setRoomName(e.target.value)}
               />
-              <button onClick={createChannel} type="button">
-                Create Channel
-              </button>
+              <div className="mt-4 flex justify-end">
+                <button
+                  className="bg-gray-300 text-white px-4 py-2 rounded mr-2"
+                  onClick={handleCloseModal}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="bg-gray-700 text-white px-4 py-2 rounded"
+                  onClick={handleConfirm}
+                >
+                  Create Channel
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   );
