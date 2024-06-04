@@ -91,7 +91,7 @@ function LiveRoom() {
 
     return () => {
       if (chatroomChannelRef.current) {
-        chatroomChannelRef.current.unsubscribe();
+        chatroomChannelRef.current.unsubscribe({ channel_id: roomId });
         consumer.disconnect();
       }
     };

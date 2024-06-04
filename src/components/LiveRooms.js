@@ -80,7 +80,7 @@ const LiveRooms = () => {
           <div id="main-content" className="w-full md:w-3/4 lg:w-6/7 pt-4">
             <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
               <li
-                className="cursor-pointer hover:bg-gray-600 p-2 rounded-lg relative overflow-hidden flex flex-col justify-center items-center"
+                className="cursor-pointer hover:bg-gray-600 p-2 rounded-lg relative overflow-hidden flex flex-col justify-center items-center min-h-56 flex-grow col-span-2 sm:col-span-3 lg:col-span-5"
                 style={{
                   backgroundImage: `url('http://localhost:3000/images/room1.jpeg')`,
                   backgroundSize: 'cover',
@@ -107,11 +107,7 @@ const LiveRooms = () => {
                     type="button"
                     style={{ width: '100%' }}
                   >
-                    <FontAwesomeIcon
-                      icon={faPlus}
-                      size="3x"
-                      style={{ width: '100%', height: 'auto' }}
-                    />
+                    <FontAwesomeIcon icon={faPlus} size="3x" />
                   </button>
                 </div>
               </li>
