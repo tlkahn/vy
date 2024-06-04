@@ -11,8 +11,8 @@ const QuestionForm = ({ toggleModal }) => {
 
   const handleQuestionSubmit = (e) => {
     e.preventDefault();
-    setUserQuestion('');
     chatroomChannelRef.current.speak(userQuestion);
+    setUserQuestion('');
   };
 
   useEffect(() => {
