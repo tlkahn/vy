@@ -6,20 +6,17 @@ import { useParams, useLocation } from 'react-router-dom';
 import useAgoraRTC from '../hooks/useAgoraRTC';
 import log from 'loglevel';
 import { useUserAuth } from '../context/UserAuthContext';
-import { cable_api } from '../api';
 import { createConsumer } from '@rails/actioncable';
 import { getToken } from '../api';
 import { useChat } from '../context/ChatContext';
 
-async function hashString(str) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(str);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint32Array(hashBuffer));
-
-  // Convert the hash to an unsigned integer by taking the first 32-bit value
-  return hashArray[0];
-}
+const hashString = async (str) => {
+  const hashBuffer = await crypto.subtle.digest(
+    'SHA-256',
+    new TextEncoder().encode(str)
+  );
+  return new Uint32Array(hashBuffer)[0];
+};
 
 function LiveRoom() {
   const { roomId } = useParams();

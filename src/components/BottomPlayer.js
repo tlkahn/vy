@@ -11,8 +11,9 @@ import {
   faQuestion,
   faStop,
   faTimes,
+  faVolumeMute,
+  faVolumeUp,
 } from '@fortawesome/free-solid-svg-icons';
-import { faCircle } from '@fortawesome/free-regular-svg-icons';
 import { faCircle as faCircleSolid } from '@fortawesome/free-solid-svg-icons';
 
 const BottomPlayer = () => {
@@ -22,6 +23,8 @@ const BottomPlayer = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [currentBgm, setCurrentBgm] = useState(null);
   const [audio, setAudio] = useState(null);
+  const [isMuted, setIsMuted] = useState(false);
+
   const audioPlayerRef = useRef(null);
   const navigate = useNavigate();
 
@@ -124,6 +127,10 @@ const BottomPlayer = () => {
     return () => document.removeEventListener('keydown', closeOnEsc);
   }, []);
 
+  const toggleMuteUnmute = () => {
+    setIsMuted(!isMuted);
+  };
+
   return (
     <>
       <div className="fixed bottom-0 left-0 right-0 bg-gray-800 py-8 px-8 flex flex-col items-center justify-center select-none">
@@ -143,6 +150,19 @@ const BottomPlayer = () => {
             )}
             <span className="hidden sm:inline w-16 text-center">
               {isPlaying ? 'Pause' : 'Play'}
+            </span>
+          </button>
+          <button
+            className={`flex flex-col items-center`}
+            onClick={toggleMuteUnmute}
+          >
+            {isMuted ? (
+              <FontAwesomeIcon icon={faVolumeMute} />
+            ) : (
+              <FontAwesomeIcon icon={faVolumeUp} />
+            )}
+            <span className="hidden sm:inline w-16 text-center">
+              {isMuted ? 'Unmute' : 'Mute'}
             </span>
           </button>
           <button
