@@ -3,7 +3,6 @@ import BottomPlayer from './BottomPlayer';
 import OnlinerList from './OnlinerList';
 import SideMenu from './SideMenu';
 import { useParams, useLocation } from 'react-router-dom';
-import useAgoraRTC from '../hooks/useAgoraRTC';
 import log from 'loglevel';
 import { useUserAuth } from '../context/UserAuthContext';
 import { createConsumer } from '@rails/actioncable';
@@ -25,8 +24,7 @@ function LiveRoom() {
   const prevUsernameRef = useRef(null);
   const [uidInt, setUidInt] = useState(null);
   const [_, setUsername] = useState(null);
-  const { killRtc } = useAgoraRTC(roomId, uidInt);
-  const { chatroomChannelRef, setMessages, killRtcRef } = useChat();
+  const { chatroomChannelRef, setMessages } = useChat();
   const [onlineUsers, setOnlineUsers] = useState([]);
   const { loading } = useUserAuth();
   const location = useLocation();
@@ -36,22 +34,12 @@ function LiveRoom() {
   }
 
   useEffect(() => {
-    if (killRtc) {
-      killRtcRef.current = killRtc;
-    }
-  }, [killRtc]);
-
-  useEffect(() => {
-    const handleNavigation = () => {
-      if (killRtcRef?.current) {
-        killRtcRef.current();
-      }
-    };
+    const handleNavigation = () => {};
     handleNavigation(); // Initial call to handle the current location
     return () => {
       handleNavigation();
     };
-  }, [location, killRtcRef]);
+  }, [location]);
 
   useEffect(() => {
     log.info({ onlineUsers });

@@ -9,7 +9,6 @@ export const useChat = () => useContext(ChatContext);
 export const ChatProvider = ({ children }) => {
   const chatroomChannelRef = useRef(null);
   const [messages, setMessages] = useState([]);
-  const killRtcRef = useRef(null);
 
   return (
     <ChatContext.Provider
@@ -17,7 +16,6 @@ export const ChatProvider = ({ children }) => {
         chatroomChannelRef,
         messages,
         setMessages,
-        killRtcRef,
       }}
     >
       {children}
