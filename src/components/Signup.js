@@ -48,6 +48,7 @@ const Signup = () => {
                 type="password"
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
+                autoComplete="off"
               />
             </Form.Group>
 

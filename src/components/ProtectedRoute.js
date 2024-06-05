@@ -11,7 +11,7 @@ const verifyUser = (user) => {
 
 const ProtectedRoute = () => {
   const { user } = useUserAuth();
-  log.info(`user from userUserAuth hook: ${{ user }}`);
+  log.info(`user from userUserAuth hook:`, { user });
 
   return verifyUser(user) ? <Outlet /> : <Login />;
 };
