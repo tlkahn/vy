@@ -20,6 +20,16 @@ const LiveRooms = () => {
     }
   };
 
+  useEffect(() => {
+    const closeOnEsc = (event) => {
+      if (event.key === 'Escape') {
+        handleCloseModal();
+      }
+    };
+    document.addEventListener('keydown', closeOnEsc);
+    return () => document.removeEventListener('keydown', closeOnEsc);
+  }, []);
+
   const handleOpenModal = () => {
     setShowModal(true);
   };
