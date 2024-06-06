@@ -6,11 +6,7 @@ import SideMenu from './SideMenu';
 import api from '../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faHeart } from '@fortawesome/free-regular-svg-icons';
-import {
-  faPause,
-  faPlaceOfWorship,
-  faPlay,
-} from '@fortawesome/free-solid-svg-icons';
+import { faPause, faPlay } from '@fortawesome/free-solid-svg-icons';
 
 const SequenceComponent = () => {
   const { id } = useParams();
