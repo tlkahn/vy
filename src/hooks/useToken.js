@@ -1,3 +1,11 @@
+/**
+ * Deprecated notice
+ *
+ * This hook `useToken` used to access Agora SDK is now deprecated and
+ * not currently used by the project.  Please avoid using this hook in
+ * any new code, as it may be removed in future updates.
+ */
+
 import { useState, useEffect } from 'react';
 
 const useToken = (url, channel_name, uid) => {

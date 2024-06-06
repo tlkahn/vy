@@ -1,3 +1,10 @@
+/**
+ * Deprecated notice
+ *
+ * This hook, useAgoraRTC, is deprecated and not currently used by the
+ * project.  Please avoid using this hook in any new code, as it may
+ * be removed in future updates.
+ */
 import { useState, useEffect } from 'react';
 import AgoraRTC from 'agora-rtc-sdk-ng';
 import useToken from './useToken';
