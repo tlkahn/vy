@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   VERSION,
   createClient,
@@ -125,6 +126,8 @@ function NewAgora({ channel }) {
     setIsJoined(false);
     setIsAudioPubed(false);
     setIsVideoPubed(false);
+
+    await toggleMic(false);
 
     await client.leave();
   };
@@ -262,5 +265,9 @@ function NewAgora({ channel }) {
     </>
   );
 }
+
+NewAgora.propTypes = {
+  channel: PropTypes.string,
+};
 
 export default NewAgora;
