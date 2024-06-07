@@ -7,6 +7,8 @@ import {
   onCameraChanged,
   onMicrophoneChanged,
 } from 'agora-rtc-sdk-ng/esm';
+import log from 'loglevel';
+import { useUserAuth } from '../context/UserAuthContext';
 
 console.log('Current SDK VERSION: ', VERSION);
 
@@ -36,6 +38,10 @@ function NewAgora({ channel }) {
   const [isAudioPubed, setIsAudioPubed] = useState(false);
   const [isVideoPubed, setIsVideoPubed] = useState(false);
   const [isVideoSubed, setIsVideoSubed] = useState(false);
+
+  const { user } = useUserAuth();
+  // const uid = useRef(user.uid);
+  log.info({ user });
 
   const turnOnCamera = async (flag) => {
     flag = flag ?? !isVideoOn;
@@ -130,7 +136,7 @@ function NewAgora({ channel }) {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row">
+      <div className="flex flex-col">
         <div className="left-side p-4">
           <div className="buttons space-x-2 mt-4">
             <button
@@ -154,16 +160,6 @@ function NewAgora({ channel }) {
               Turn {isAudioOn ? 'off' : 'on'} Microphone
             </button>
           </div>
-          <h3 className="mt-4 text-lg">
-            {`Please input the appid and token (`}
-            <a
-              href="https://www.agora.io/en/blog/how-to-get-started-with-agora"
-              className="text-blue-500 underline"
-            >
-              Create an account.
-            </a>
-            {`) `}
-          </h3>
           <ul className="space-y-4 mt-4">
             <li>
               <p className="font-medium">appid</p>
@@ -195,7 +191,7 @@ function NewAgora({ channel }) {
           </ul>
           <h3 className="mt-4 text-lg">Channel name</h3>
           {channel}
-          <div className="buttons space-x-2 mt-4">
+          <div className="buttons space-x-2 mt-4 flex-row flex">
             <button
               onClick={joinChannel}
               className={`px-4 py-2 rounded ${
@@ -234,7 +230,7 @@ function NewAgora({ channel }) {
             </button>
           </div>
         </div>
-        <div className="right-side p-4">
+        <div className="p-4">
           <video
             id="camera-video"
             className={`${isVideoOn ? 'block' : 'hidden'}`}
