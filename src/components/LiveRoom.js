@@ -8,6 +8,7 @@ import { useUserAuth } from '../context/UserAuthContext';
 import { createConsumer } from '@rails/actioncable';
 import { getToken } from '../api';
 import { useChat } from '../context/ChatContext';
+import NewAgora from './NewAgora';
 
 function LiveRoom() {
   const { roomId } = useParams();
@@ -76,6 +77,7 @@ function LiveRoom() {
           <SideMenu />
           <div id="main-content" className="w-full md:w-3/4 lg:w-6/7 pt-4">
             <OnlinerList onliners={onlineUsers} />
+            <NewAgora channel={roomId} />
             <BottomPlayer />
           </div>
         </div>

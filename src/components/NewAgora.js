@@ -167,7 +167,7 @@ function NewAgora({ channel }) {
 
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col hidden">
         <div className="left-side p-4">
           <div className="buttons space-x-2 mt-4">
             <button
