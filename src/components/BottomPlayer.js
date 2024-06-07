@@ -1,3 +1,12 @@
+/**
+ * Deprecated notice
+ *
+ * This component is deprecated and not currently used by the
+ * project. Please avoid using in any new code, as it may
+ * be removed in future updates.
+ *
+ */
+
 import React, { useState, useEffect, useRef, lazy } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AudioPlayer from './AudioPlayer';

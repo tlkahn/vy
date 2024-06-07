@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import BottomPlayer from './BottomPlayer';
 import OnlinerList from './OnlinerList';
-import SideMenu from './SideMenu';
 import { useParams, useLocation } from 'react-router-dom';
 import log from 'loglevel';
 import { useUserAuth } from '../context/UserAuthContext';
@@ -77,7 +75,6 @@ function LiveRoom() {
           <div id="main-content" className="w-full md:w-3/4 lg:w-6/7 pt-4">
             <OnlinerList onliners={onlineUsers} />
             <NewAgora channel={roomId} />
-            <BottomPlayer />
           </div>
         </div>
       </div>
