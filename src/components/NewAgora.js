@@ -75,6 +75,16 @@ function NewAgora({ channel }) {
     fetchToken();
   }, [user]);
 
+  useEffect(() => {
+    const startChannel = async () => {
+      if (token) {
+        await joinChannel();
+        await publishAudio();
+      }
+    };
+    startChannel();
+  }, [token]);
+
   const turnOnCamera = async (flag) => {
     flag = flag ?? !isVideoOn;
     setIsVideoOn(flag);
@@ -86,7 +96,7 @@ function NewAgora({ channel }) {
     videoTrack.play('camera-video');
   };
 
-  const turnOnMicrophone = async (flag) => {
+  const toggleMic = async (flag) => {
     flag = flag ?? !isAudioOn;
     setIsAudioOn(flag);
 
@@ -142,10 +152,10 @@ function NewAgora({ channel }) {
   };
 
   const publishAudio = async () => {
-    await turnOnMicrophone(true);
+    await toggleMic(true);
 
     if (!isJoined) {
-      await joinChannel();
+      log.error("You haven't joined the channel: ", channel);
     }
 
     await client.publish(audioTrack);
@@ -168,7 +178,7 @@ function NewAgora({ channel }) {
               Turn {isVideoOn ? 'off' : 'on'} camera
             </button>
             <button
-              onClick={() => turnOnMicrophone()}
+              onClick={() => toggleMic()}
               className={`px-4 py-2 rounded ${
                 isAudioOn
                   ? 'bg-green-500 text-white'
