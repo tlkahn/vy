@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BottomPlayer from './BottomPlayer';
 import OnlinerList from './OnlinerList';
 import SideMenu from './SideMenu';
@@ -9,21 +9,8 @@ import { createConsumer } from '@rails/actioncable';
 import { getToken } from '../api';
 import { useChat } from '../context/ChatContext';
 
-const hashString = async (str) => {
-  const hashBuffer = await crypto.subtle.digest(
-    'SHA-256',
-    new TextEncoder().encode(str)
-  );
-  return new Uint32Array(hashBuffer)[0];
-};
-
 function LiveRoom() {
   const { roomId } = useParams();
-  const { user } = useUserAuth();
-  const prevUidRef = useRef(null);
-  const prevUsernameRef = useRef(null);
-  const [uidInt, setUidInt] = useState(null);
-  const [_, setUsername] = useState(null);
   const { chatroomChannelRef, setMessages } = useChat();
   const [onlineUsers, setOnlineUsers] = useState([]);
   const { loading } = useUserAuth();
@@ -81,43 +68,6 @@ function LiveRoom() {
       }
     };
   }, [loading]);
-
-  useEffect(() => {
-    async function updateUidInt() {
-      if (prevUidRef.current) {
-        const hashedUid = await hashString(prevUidRef.current);
-        setUidInt(hashedUid);
-      }
-    }
-    updateUidInt();
-  }, [prevUidRef.current]);
-
-  useEffect(() => {
-    if (prevUsernameRef.current) {
-      setUsername(prevUsernameRef.current);
-    }
-  }, [prevUsernameRef.current]);
-
-  useEffect(() => {
-    if (user && user.uid && user.uid !== prevUidRef.current) {
-      log.info(`[VY] [INFO]: uid: ${JSON.stringify(user.uid)}`);
-      prevUidRef.current = user.uid;
-    }
-    if (
-      user &&
-      user.displayName &&
-      user.displayName !== prevUsernameRef.current
-    ) {
-      log.info(
-        `[VY] [INFO]: user displayName: ${JSON.stringify(user.displayName)}`
-      );
-      prevUsernameRef.current = user.displayName;
-    }
-  }, [user]);
-
-  useEffect(() => {
-    log.info(`[VY] [INFO]: room id: ${roomId}`);
-  }, [roomId]);
 
   return (
     <>
