@@ -12,6 +12,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { ChatProvider } from './context/ChatContext';
 import log from 'loglevel';
 const LiveRoom = lazy(() => import('./components/LiveRoom'));
+import NewAgora from './components/NewAgora';
 
 function App() {
   if (process.env.NODE_ENV === 'development') {
@@ -27,6 +28,7 @@ function App() {
               <Route path="/" element={<Login />} />
               <Route path="/signin" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/chat" element={<NewAgora channel={'0'} />} />
               {/* Below are protected domains */}
               <Route path="*" element={<ProtectedRoute />}>
                 <Route path="liverooms" element={<LiveRooms />} />
