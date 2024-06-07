@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   VERSION,
   createClient,
@@ -9,6 +9,7 @@ import {
 } from 'agora-rtc-sdk-ng/esm';
 import log from 'loglevel';
 import { useUserAuth } from '../context/UserAuthContext';
+import { AGORA_APP_ID, AGORA_TOKEN_URL } from '../agora';
 
 console.log('Current SDK VERSION: ', VERSION);
 
@@ -40,8 +41,39 @@ function NewAgora({ channel }) {
   const [isVideoSubed, setIsVideoSubed] = useState(false);
 
   const { user } = useUserAuth();
-  // const uid = useRef(user.uid);
-  log.info({ user });
+  log.info({ uid: user.uid });
+
+  const uid = useRef('');
+
+  const appid = useRef(AGORA_APP_ID);
+
+  const [token, setToken] = useState('');
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      uid.current = user.uid;
+      if (!uid.current) return;
+
+      try {
+        const response = await fetch(AGORA_TOKEN_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ channel_name: channel, uid: uid.current }),
+        });
+
+        if (!response.ok)
+          throw new Error(`HTTP error! status: ${response.status}`);
+
+        const { token: rtcToken } = await response.json();
+        log.info(rtcToken);
+        setToken(rtcToken);
+      } catch (error) {
+        console.error('Failed to fetch token:', error);
+      }
+    };
+
+    fetchToken();
+  }, [user]);
 
   const turnOnCamera = async (flag) => {
     flag = flag ?? !isVideoOn;
@@ -67,29 +99,15 @@ function NewAgora({ channel }) {
   };
 
   const [isJoined, setIsJoined] = useState(false);
-  const appid = useRef('ed48e0cee69e41ffa303e26737ec210f');
-  const token = useRef(
-    '007eJxTYEhJKyq5kM8++W/5v83/ipZUVIhk3zaT/s8z71nT9VSXtB0KDKkpJhapBsmpqWaWqSaGaWmJxgbGqUZm5sbmqclGhgZpB2KT0hoCGRn4vyYwMEIhiM/IYMDAAABygB+R'
-  );
-  const uid = useRef('123');
 
   const joinChannel = async () => {
-    if (!channel) {
-      channel = 'react-room';
-    }
-
     if (isJoined) {
       await leaveChannel();
     }
 
     client.on('user-published', onUserPublish);
 
-    await client.join(
-      appid.current,
-      channel,
-      token.current || null,
-      uid.current
-    );
+    await client.join(appid.current, channel, token, uid.current);
     setIsJoined(true);
   };
 
@@ -163,30 +181,15 @@ function NewAgora({ channel }) {
           <ul className="space-y-4 mt-4">
             <li>
               <p className="font-medium">appid</p>
-              <input
-                defaultValue={appid.current}
-                placeholder="appid"
-                onChange={(e) => (appid.current = e.target.value)}
-                className="w-full px-2 py-1 border rounded"
-              />
+              <p>{appid.current}</p>
             </li>
             <li>
               <p className="font-medium">token</p>
-              <input
-                defaultValue={token.current}
-                placeholder="token"
-                onChange={(e) => (token.current = e.target.value)}
-                className="w-full px-2 py-1 border rounded"
-              />
+              <p>{token}</p>
             </li>
             <li>
               <p className="font-medium">uid</p>
-              <input
-                defaultValue={uid.current}
-                placeholder="uid"
-                onChange={(e) => (uid.current = e.target.value)}
-                className="w-full px-2 py-1 border rounded"
-              />
+              <p>{uid.current}</p>
             </li>
           </ul>
           <h3 className="mt-4 text-lg">Channel name</h3>
